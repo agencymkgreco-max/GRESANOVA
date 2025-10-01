@@ -9770,3 +9770,15 @@ h6,
   padding: 0;
   list-style-type: none;
 }
+h5 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  color: #b21f2d;         /* Verde Rolex */
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #ba8b00 0%, #165a36 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
