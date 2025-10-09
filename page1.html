@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GRESANOVA</title>
+    <link rel="stylesheet" href="css/estilo.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">GRESANOVA</div>
+        <button class="menu-icon" id="menu-icon" aria-label="Abrir menú de navegación">&#9776;</button>
+        <nav class="nav-links" id="nav-links">
+            <a href="#">Inicio</a>
+            <a href="#">Servicios</a>
+            <a href="#">Proyectos</a>
+            <a href="#">Contacto</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <section class="form-section">
+            <form class="formulario">
+                <h2>Contáctanos</h2>
+                <label for="nombre-contacto" class="sr-only">Nombre completo</label>
+                <input type="text" id="nombre-contacto" placeholder="Nombre completo" required />
+
+                <label for="email-contacto" class="sr-only">Correo electrónico</label>
+                <input type="email" id="email-contacto" placeholder="Correo electrónico" required />
+
+                <label for="mensaje-contacto" class="sr-only">Mensaje</label>
+                <textarea id="mensaje-contacto" placeholder="Mensaje"></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+
+        <section class="banner-central">
+          <button class="brutalist-button">
+  <div class="ms-logo">
+    <div class="ms-logo-square"></div>
+    <div class="ms-logo-square"></div>
+    <div class="ms-logo-square"></div>
+    <div class="ms-logo-square"></div>
+  </div>
+  <div class="button-text">
+    <span>Desarrollar & Actualizar</span>
+    <span>GRESANOVA</span>
+  </div>
+</button>
+        </section>
+
+        <aside class="right-panel">
+            <ul class="accordion-list">
+                
+                <li class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Elemento 1</span>
+                        <span class="icon">+</span> 
+                    </div>
+                    <div class="accordion-content">
+                        <img src="https://via.placeholder.com/300x200.png?text=Imagen+1" alt="Imagen representativa de Elemento 1">
+                    </div>
+                </li>
+
+                <li class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Elemento 2</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <video width="100%" controls style="border-radius: 0.5rem;">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Tu navegador no soporta videos.
+                        </video>
+                    </div>
+                </li>
+                
+                <li class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Elemento 3</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <img src="https://via.placeholder.com/300x200.png?text=Imagen+3" alt="Imagen representativa de Elemento 3">
+                    </div>
+                </li>
+
+                <li class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Elemento 4</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <img src="https://via.placeholder.com/300x200.png?text=Imagen+4" alt="Imagen representativa de Elemento 4">
+                    </div>
+                </li>
+                
+            </ul>
+        </aside>
+    </main>
+
+    <section class="bottom-banners">
+    <div class="banner-item" id="banner1" onclick="toggleImage('banner1', 'img-expandida-1')">
+        <div class="diagonal-split">
+            <img class="split-image-a" src="ruta-a-imagen-inicial-banner1.jpg" alt="Imagen A Banner 1">
+            <img class="split-image-b" src="ruta-a-imagen-alternativa-banner1.jpg" alt="Imagen B Banner 1">
+        </div>
+    </div>
+    </section>
+
+<div id="img-expandida-1" class="expanded-image-container hidden">
+    <img id="expanded-content-banner1" src="" alt="Contenido expandido">
+    <button onclick="hideExpandedImage('img-expandida-1')">X Cerrar</button>
+</div>
+
+        <div class="container_carru">
+            <div id="actions">
+                <a id="arrowrigth">
+                    <img src="img/flecha-pequena-derecha.png" class="arrowrigth" alt="Flecha derecha">
+                </a>
+                <a id="arrowleft">
+                    <img src="img/flecha-pequena-izquierda.png" class="arrowleft" alt="Flecha izquierda">
+                </a>
+            </div>
+            <div id="items">
+                <img draggable="false" class="item" src="https://thumb9.shutterstock.com/display_pic_with_logo/176492940/1018241128/stock-vector-arabica-coffee-ads-with-a-cup-of-beverage-and-beans-in-d-illustration-with-retro-ingredient-plants-1018241128.jpg" alt="Anuncio de café arábica con taza">
+                <img draggable="false" class="item" src="https://image.shutterstock.com/image-vector/cup-coffee-beans-graphic-260nw-487613659.jpg" alt="Diseño gráfico de una taza de café y granos">
+                <img draggable="false" class="item" src="https://image.shutterstock.com/image-vector/coffee-graphic-design-vector-illustration-260nw-227954110.jpg" alt="Ilustración vectorial de diseño gráfico de café">
+                <img draggable="false" class="item" src="https://image.shutterstock.com/image-photo/fresh-coffee-260nw-97048451.jpg" alt="Fotografía de café fresco">
+                <img draggable="false" class="item" src="https://image.shutterstock.com/image-photo/cup-coffee-beans-cinnamon-sticks-260nw-133418606.jpg" alt="Taza de café con granos y ramas de canela">
+            </div>
+        </div>
+         <section class="bottom-banners">
+    <div class="banner-item" id="banner1" onclick="toggleImage('banner1', 'img-expandida-1')">
+        <div class="diagonal-split">
+            <img class="split-image-a" src="ruta-a-imagen-inicial-banner1.jpg" alt="Imagen A Banner 1">
+            <img class="split-image-b" src="ruta-a-imagen-alternativa-banner1.jpg" alt="Imagen B Banner 1">
+        </div>
+    </div>
+    </section>
+
+<div id="img-expandida-1" class="expanded-image-container hidden">
+    <img id="expanded-content-banner1" src="" alt="Contenido expandido">
+    <button onclick="hideExpandedImage('img-expandida-1')">X Cerrar</button>
+</div>
+    </section>
+
+    <footer>
+        <p>© 2025 GRESANOVA | Innovación y Branding</p>
+    </footer>
+
+    <script src="js/MAIN.JS"></script>
+</body>
+</html>

@@ -1,0 +1,823 @@
+/* Reset general */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0b0c10;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background: rgba(15, 15, 20, 0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.menu-icon {
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #00bcd4;
+}
+
+/* Layout principal */
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 6rem;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+/* Formulario izquierdo */
+.form-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.formulario input, .formulario textarea, .formulario button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+}
+
+.formulario button {
+  background: #00bcd4;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.formulario button:hover {
+  background: #008ba3;
+}
+
+/* Banner central */
+.banner-central {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #101820, #0d141a);
+  border-radius: 50%;
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
+.logo-banner {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #00bcd4;
+}
+
+/* Panel derecho */
+.right-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.right-panel ul {
+  list-style: none;
+}
+
+.right-panel li {
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.right-panel li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.image-display {
+  margin-top: 1rem;
+  height: 150px;
+  background: #101820;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Banners inferiores */
+.bottom-banners {
+  display: flex;
+  justify-content: space-around;
+  margin: 3rem 2rem;
+  gap: 2rem;
+}
+
+.banner-item {
+  flex: 1;
+  height: 200px;
+  width: 300px;
+  background: linear-gradient(135deg, #101820, #151d25);
+  border-radius: 1rem;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.banner-item:hover {
+  transform: scale(1.02);
+}
+
+/* Carrusel inferior */
+.carrusel {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.carrusel .item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.carrusel .item:hover {
+  background: #00bcd4;
+  color: #0b0c10;
+  transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 3rem;
+}
+/* --- INICIA CSS DEL CARRUSEL --- */
+.container_carru {
+  background: transparent; /* Hacemos el fondo transparente para que se integre */
+  position: relative;
+  flex: 2; /* Ocupa el espacio central */
+}
+
+.container_carru #actions #arrowrigth .arrowrigth {
+  cursor: pointer;
+  top: 50%;
+  width: 5%;
+  position: absolute;
+  z-index: 201;
+  right: 10px;
+  transform: rotate(268deg);
+}
+
+.container_carru #actions #arrowleft .arrowleft {
+  cursor: pointer;
+  top: 50%;
+  width: 5%;
+  position: absolute;
+  z-index: 201;
+  left: 10px;
+  transform: rotate(90deg);
+}
+
+.container_carru #items {
+  padding: 5%;
+  cursor: move;
+  z-index: 200;
+  overflow: hidden;
+  height: 250px; /* Altura ajustada para el layout */
+  position: relative;
+}
+
+.container_carru #items .item {
+  display: none;
+  height: 80%;
+  position: absolute;
+  border-radius: 1rem; /* Añadido para consistencia de diseño */
+}
+
+.container_carru #items .img_left {
+  display: block !important;
+  left: 50%;
+  opacity: .4;
+  z-index: 0;
+  transform: translateX(-100%) scale(0.9);
+}
+
+.container_carru #items .img_rigth {
+  display: block !important;
+  left: 50%;
+  opacity: .4;
+  transform: translateX(0%) scale(0.9);
+  z-index: 0;
+}
+
+.container_carru #items .img_center {
+  display: block !important;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  z-index: 90;
+}
+
+.container_carru #items .animaterigthR {
+  animation-name: rigthR;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+@keyframes rigthR {
+  0% { opacity: 1; transform: translateX(-50%) scale(1); z-index: 90; }
+  30% { opacity: 1; transform: translateX(10%) scale(0.94); z-index: 50; }
+  100% { opacity: .4; transform: translateX(0%) scale(0.9); z-index: 0; }
+}
+
+.container_carru #items .animaterigthL {
+  animation-name: rigthL;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+@keyframes rigthL {
+  0% { left: 50%; opacity: .1; transform: translateX(0%) scale(0.9); z-index: 0; }
+  100% { left: 50%; opacity: .4; z-index: 0; transform: translateX(-100%) scale(0.9); }
+}
+
+.container_carru #items .animaterigthC {
+  animation-name: rigthC;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+@keyframes rigthC {
+  0% { left: 50%; opacity: .4; z-index: 0; transform: translateX(-100%) scale(0.9); }
+  20% { left: 50%; opacity: 1; z-index: 50; transform: translateX(-110%) scale(0.94); }
+  100% { left: 50%; transform: translateX(-50%); z-index: 90; }
+}
+
+.container_carru #items .animateleftL {
+  animation-name: leftL;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+@keyframes leftL {
+  0% { left: 50%; opacity: 1; transform: translateX(-50%) scale(1); z-index: 90; }
+  30% { left: 50%; opacity: 1; z-index: 50; transform: translateX(-110%) scale(0.94); }
+  100% { left: 50%; opacity: .4; z-index: 0; transform: translateX(-100%) scale(0.9); }
+}
+
+.container_carru #items .animateleftR {
+  animation-name: leftR;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+@keyframes leftR {
+  0% { left: 50%; opacity: .1; z-index: 0; transform: translateX(-100%) scale(0.9); }
+  100% { left: 50%; opacity: .4; transform: translateX(0%) scale(0.9); z-index: 0; }
+}
+
+.container_carru #items .animateleftC {
+  animation-name: leftC;
+  animation-duration: 1s;
+  animation-timing-function: ease;
+}
+
+@keyframes leftC {
+  0% { opacity: .4; transform: translateX(0%) scale(0.9); z-index: 0; }
+  20% { opacity: 1; z-index: 0; transform: translateX(10%) scale(0.94); }
+  100% { opacity: 1; transform: translateX(-50%); z-index: 90; }
+}
+/* --- TERMINA CSS DEL CARRUSEL --- */
+/* --- INICIA ESTILOS DEL ACORDEÓN --- */
+
+/* Contenedor principal de la lista */
+.right-panel .accordion-list {
+  list-style: none;
+  width: 100%;
+}
+
+.right-panel .accordion-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0;
+}
+
+/* El encabezado de cada elemento (lo que es clickeable) */
+.right-panel .accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.right-panel .accordion-header:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.right-panel .accordion-header .icon {
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: transform 0.4s ease-out;
+}
+
+/* El contenedor del contenido (oculto por defecto) */
+.right-panel .accordion-content {
+  max-height: 0; /* Inicia cerrado */
+  overflow: hidden;
+  padding: 0 0.8rem;
+  transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* La magia de la animación lenta */
+}
+
+.right-panel .accordion-content img,
+.right-panel .accordion-content video {
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Estilos cuando un elemento está ACTIVO (abierto) */
+.right-panel .accordion-item.active .accordion-content {
+  max-height: 500px; /* Altura máxima para desplegarse */
+  padding: 0.8rem;
+}
+
+.right-panel .accordion-item.active .accordion-header .icon {
+  transform: rotate(45deg); /* Gira el ícono '+' para que parezca 'x' */
+}
+
+/* --- TERMINA ESTILOS DEL ACORDEÓN --- */
+/* Estilo para ocultar labels visualmente, pero mantenerlos para accesibilidad */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* --- INICIA RESPONSIVIDAD (Media Query) --- */
+@media (max-width: 768px) {
+    /* 1. Navbar: Ocultar enlaces, mostrar ícono */
+    .menu-icon {
+        display: block; /* Muestra el botón de hamburguesa */
+        background: transparent;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    .nav-links {
+        display: none; /* Oculta los enlaces por defecto */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 4.5rem; /* Ajustar debajo de la navbar */
+        left: 0;
+        background: rgba(15, 15, 20, 0.98);
+        padding: 1rem 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links a {
+        padding: 0.5rem 2rem;
+        text-align: center;
+        width: 100%; /* Ocupa todo el ancho para facilitar el clic */
+    }
+
+    /* Clase que se añadiría con JavaScript para mostrar el menú */
+    .nav-links.active {
+        display: flex;
+    }
+
+    /* 2. Main Container: Grid de 3 a 1 columna */
+    .main-container {
+        grid-template-columns: 1fr; /* Una sola columna en móvil */
+        margin-top: 5.5rem; /* Ajuste por el tamaño fijo de la navbar */
+        padding: 1rem;
+    }
+    
+    /* 3. Banner Central (círculo) */
+    .banner-central {
+        width: 80%; /* Hacerlo más pequeño en móvil */
+        margin: 1rem auto;
+    }
+
+    .logo-banner {
+        font-size: 2.5rem; /* Reducir tamaño de la fuente */
+    }
+    
+    /* 4. Banners Inferiores: De flex a columna */
+    .bottom-banners {
+        flex-direction: column;
+        margin: 2rem 1rem;
+    }
+
+    .banner-item {
+        width: 100%;
+        height: 150px;
+    }
+
+    .container_carru {
+        flex: 1; /* Asegura que el carrusel ocupe todo el ancho */
+    }
+    
+    /* 5. Ajuste de flechas del carrusel para móvil */
+    .container_carru #actions #arrowrigth .arrowrigth,
+    .container_carru #actions #arrowleft .arrowleft {
+        width: 10%; /* Flechas más grandes */
+    }
+    
+    .container_carru #items {
+        height: 180px; /* Altura más baja para móviles */
+    }
+}
+/* --- TERMINA RESPONSIVIDAD --- */
+/* =========================================== */
+/* === KEYFRAMES DE ANIMACIÓN ASCENDENTE === */
+/* =========================================== */
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px); /* Mueve el elemento 20px hacia abajo */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Lo devuelve a su posición original */
+    }
+}
+
+/* =========================================== */
+/* === APLICACIÓN DE LA ANIMACIÓN === */
+/* =========================================== */
+
+/* Aplica la animación base a todos los contenedores principales
+   que quieres que aparezcan. */
+.main-container > *,
+.bottom-banners > *,
+footer p {
+    opacity: 0; /* Oculta los elementos antes de la animación */
+    animation-name: slide-up;
+    animation-duration: 1s;
+    animation-fill-mode: forwards; /* Mantiene el estado final de la animación */
+    animation-timing-function: ease-out;
+}
+
+/* 1. Navbar: No se anima, pero nos aseguramos de que sea visible */
+.navbar {
+    opacity: 1; /* Aseguramos que la barra fija esté visible */
+}
+
+/* 2. Contenedores de la sección principal (Main) */
+.form-section {
+    animation-delay: 0.3s;
+}
+.banner-central {
+    animation-delay: 0.5s;
+}
+.right-panel {
+    animation-delay: 0.7s;
+}
+
+/* 3. Banners inferiores (Sección bottom-banners) */
+#banner1 {
+    animation-delay: 0.9s;
+}
+.container_carru {
+    animation-delay: 1.1s;
+}
+#banner2 {
+    animation-delay: 1.3s;
+}
+
+/* 4. Footer */
+footer p {
+    animation-delay: 1.5s;
+}
+
+/* Ajuste específico para que el logo central (que es más grande) aparezca */
+.logo-banner {
+    animation: slide-up 1s ease-out 0.8s forwards; /* Se anima individualmente */
+}
+
+/* Opcional: Para asegurar que los elementos del acordeón se vean bien */
+.accordion-item {
+    opacity: 1; /* Desactivamos el efecto ascendente en los ítems internos del acordeón */
+}
+/* Estilos generales */
+.bottom-banners {
+    display: flex; /* Para poner los banners uno al lado del otro */
+    gap: 10px; /* Espacio entre banners */
+}
+
+.banner-item {
+    /* Define el tamaño vertical de tu rectángulo */
+    width: 200px; /* Ancho de tu banner vertical */
+    height: 400px; /* Alto de tu banner vertical */
+    position: relative;
+    overflow: hidden; /* Importante para clip-path */
+    cursor: pointer;
+}
+
+.diagonal-split {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.split-image-a,
+.split-image-b {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Para asegurar que la imagen cubra el área */
+    transition: opacity 0.3s ease-in-out; /* Animación de fade */
+}
+
+/* División Diagonal: Usaremos clip-path para el efecto de "diagonal" */
+.split-image-a {
+    /* Muestra la mitad superior-izquierda */
+    /* Coordenadas del polígono: Esquina superior izquierda, esquina superior derecha, punto medio inferior, punto medio izquierdo */
+    clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+    /* Opcionalmente, puedes usar un punto a lo largo del borde para crear una línea diagonal */
+    /* clip-path: polygon(0 0, 100% 0, 0 100%); */
+    /* Para una diagonal de esquina a esquina */
+}
+
+.split-image-b {
+    /* Muestra la mitad inferior-derecha, superpuesta */
+    /* Coordenadas del polígono: Esquina superior derecha, esquina inferior derecha, esquina inferior izquierda */
+    clip-path: polygon(100% 0%, 100% 100%, 0% 100%);
+    /* Esto crea un efecto de división visual, aunque las imágenes se superponen. */
+    opacity: 0; /* Inicialmente oculta la imagen B */
+}
+
+/* Estilo para la imagen expandida */
+.expanded-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
+}
+
+.expanded-image-container.hidden {
+    display: none;
+}
+
+.expanded-image-container img {
+    /* Ajusta este ancho al ancho que tienen los banners *arriba* */
+    /* Asumo que hay un contenedor principal (ej: .container) que define el ancho máximo */
+    /* Puedes usar `max-width: 80vw;` o definir un ancho fijo que coincida con tus banners superiores */
+    max-width: 800px; /* **AJUSTAR** al ancho deseado (ej: el ancho de tu sección de banners superiores) */
+    height: auto;
+    max-height: 90vh; /* Evita que la imagen sea más alta que la ventana */
+}
+
+.expanded-image-container button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Estilo para alternar la imagen dentro del banner (usado por JS) */
+.banner-item.active .split-image-a {
+    opacity: 0;
+}
+
+.banner-item.active .split-image-b {
+    opacity: 1;
+}
+/* Estilos para el contenedor principal */
+.banner-central {
+    /* **IMPORTANTE**: Define un ancho y alto para tu banner principal */
+    width: 100%;
+    height: 400px; /* Ajusta la altura a tu gusto */
+    
+    /* Imagen de fondo inicial (se cambia con JS) */
+    background-image: url('ruta-a-imagen-inicial-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out; /* Transición suave al cambiar la imagen */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente el contenido */
+    align-items: center;     /* Centra horizontalmente el contenido */
+    position: relative;
+}
+
+.logo-banner {
+    color: white; /* o el color que necesites */
+    font-size: 3em;
+    margin-bottom: 20px;
+    z-index: 2; /* Asegura que el logo esté visible */
+}
+
+/* * El CSS de .brutalist-button, .ms-logo, .button-text, etc., 
+* y los keyframes, deben copiarse ÍNTEGROS. 
+*/
+
+/* Estilos para la imagen expandida (copiados de la solución anterior) */
+.expanded-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
+}
+
+.expanded-image-container.hidden {
+    display: none;
+}
+
+.expanded-image-container img {
+    /* Ajusta este valor al ancho deseado para la vista expandida */
+    max-width: 800px; 
+    height: auto;
+    max-height: 90vh; 
+}
+/* ... otros estilos del expanded-image-container ... */
+.brutalist-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  width: 340px;
+  height: 120px;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  border: 3px solid #fff;
+  outline: 3px solid #000;
+  box-shadow: 8px 8px 0 #00a4ef;
+  transition: all 0.1s ease-out;
+  padding: 0 20px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.brutalist-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  z-index: 1;
+  transition: none;
+  /* Initially hide the pseudo-element */
+  opacity: 0;
+}
+
+@keyframes slide {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.brutalist-button:hover::before {
+  /* Show the pseudo-element on hover */
+  opacity: 1;
+  animation: slide 2s infinite;
+}
+
+.brutalist-button:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0 #000;
+  background-color: #000;
+  color: #fff;
+}
+
+@keyframes slide {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.brutalist-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0 #00a4ef;
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+/* Rest of the CSS remains the same */
+
+.ms-logo {
+  width: 26px;
+  height: 26px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease-out;
+  position: relative;
+  z-index: 1;
+  background-image: url('../img/Logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.brutalist-button:hover .ms-logo {
+  transform: rotate(-10deg) scale(1.1);
+}
+
+.brutalist-button:active .ms-logo {
+  transform: rotate(10deg) scale(0.9);
+}
+
+.button-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  transition: transform 0.2s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+.brutalist-button:hover .button-text {
+  transform: skew(-5deg);
+}
+
+.brutalist-button:active .button-text {
+  transform: skew(5deg);
+}
+
+.button-text span:first-child {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.button-text span:last-child {
+  font-size: 16px;
+  text-transform: uppercase;
+}

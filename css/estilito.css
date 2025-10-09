@@ -1,0 +1,220 @@
+/* Reset general */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0b0c10;
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  /* Animación de desvanecimiento general */
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background: rgba(15, 15, 20, 0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.menu-icon {
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #00bcd4;
+}
+
+/* Layout principal */
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 6rem;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+/* Formulario izquierdo */
+.form-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  /* Animación de slide-up */
+  animation: slideUp 1s ease-out forwards;
+}
+
+.formulario input, .formulario textarea, .formulario button {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+}
+
+.formulario button {
+  background: #00bcd4;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.formulario button:hover {
+  background: #008ba3;
+}
+
+/* Banner central */
+.banner-central {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #101820, #0d141a);
+  border-radius: 50%;
+  width: 100%;
+  aspect-ratio: 1/1;
+  /* Animación de slide-up con retraso */
+  animation: slideUp 1s ease-out 0.2s forwards;
+  opacity: 0; /* Inicia invisible hasta que la animación comience */
+}
+
+.logo-banner {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #00bcd4;
+}
+
+/* Panel derecho */
+.right-panel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 1rem;
+  /* Animación de slide-up con retraso */
+  animation: slideUp 1s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.right-panel ul {
+  list-style: none;
+}
+
+.right-panel li {
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.right-panel li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.image-display {
+  margin-top: 1rem;
+  height: 150px;
+  background: #101820;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Banners inferiores con Iframe en el medio */
+.bottom-banners {
+  display: flex;
+  justify-content: space-between; /* Ajustado para dar espacio */
+  align-items: center; /* Centra los 3 elementos verticalmente */
+  margin: 3rem 2rem;
+  gap: 2rem;
+  /* Animación de slide-up con retraso */
+  animation: slideUp 1s ease-out 0.6s forwards;
+  opacity: 0;
+}
+
+.banner-item {
+  flex: 1; /* Ocupa 1 parte del espacio */
+  height: 300px; /* Aumenté la altura para que coincida mejor con el video */
+  background: linear-gradient(135deg, #101820, #151d25);
+  border-radius: 1rem;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.banner-item:hover {
+  transform: scale(1.02);
+}
+
+/* NUEVO: Contenedor para el Iframe */
+.iframe-container {
+  flex: 2; /* Dale el doble de espacio que a los banners laterales */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.iframe-container iframe {
+  width: 100%;
+  max-width: 600px; /* Un ancho máximo para que no se estire demasiado */
+  aspect-ratio: 16 / 9; /* Mantiene la proporción de video */
+  border-radius: 1rem;
+}
+
+/* EL CARRUSEL FUE ELIMINADO */
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 3rem;
+  /* Animación de slide-up con retraso */
+  animation: slideUp 1s ease-out 0.8s forwards;
+  opacity: 0;
+}
+
+/* --- NUEVO: DEFINICIÓN DE ANIMACIONES --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
