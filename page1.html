@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/estilo.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <title>GRESANOVA - Arquitectos de Negocios Exitosos</title>
-    <link rel="icon" type="image/png" href="img/logs.png"> 
     <style>
         * {
             margin: 0;
@@ -534,20 +536,25 @@
     </header>
 
     <!-- HERO SECTION -->
-    <section id="inicio" class="hero-section">
-        <div class="hero-content">
-            <h1 class="hero-title">GRESANOVA</h1>
-            <p class="hero-subtitle">Arquitectos de Negocios Exitosos</p>
-            <p class="hero-description">
-                Conectamos, Actualizamos y Desarrollamos empresas jóvenes mediante soluciones integrales 
-                en finanzas, administración, marketing y optimización de procesos.
-            </p>
-            <div class="cta-buttons">
-                <a href="#servicios" class="btn-primary">Nuestros Servicios</a>
-                <a href="#contacto" class="btn-secondary">Contáctanos</a>
-            </div>
+   <section id="inicio" class="hero-section">
+    <video autoplay muted loop id="video-fondo">
+        <source src="img/videolog.mp4" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+    </video>
+    
+    <div class="hero-content">
+        <h1 class="hero-title">GRESANOVA</h1>
+        <p class="hero-subtitle">Arquitectos de Negocios Exitosos</p>
+        <p class="hero-description">
+            Conectamos, Actualizamos y Desarrollamos empresas jóvenes mediante soluciones integrales 
+            en finanzas, administración, marketing y optimización de procesos.
+        </p>
+        <div class="cta-buttons">
+            <a href="#servicios" class="btn-primary">Nuestros Servicios</a>
+            <a href="#contacto" class="btn-secondary">Contáctanos</a>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- SERVICIOS -->
     <section id="servicios" class="servicios-section">
@@ -669,6 +676,568 @@
             </div>
         </div>
     </section>
+ <!-- Infografias -->
+
+    <style>
+        /* Estilos para las infografías integradas */
+        .infographics-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 20px;
+            margin: 40px 0;
+        }
+        
+        .infographics-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        
+        .infographics-header h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .infographics-header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .infographic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .infographic {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .infographic:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+        
+        .infographic-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .problem-list {
+            list-style: none;
+            margin: 20px 0;
+            padding: 0;
+        }
+        
+        .problem-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .problem-icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .problem-text {
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .solution-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .solution-box h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+        
+        .solution-box p {
+            font-size: 1.05em;
+            line-height: 1.6;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+        
+        .timeline-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-desc {
+            color: #555;
+            font-size: 0.95em;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .comparison-side {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .comparison-before {
+            background: #ffe5e5;
+            border: 2px solid #ff6b6b;
+        }
+        
+        .comparison-after {
+            background: #e5ffe5;
+            border: 2px solid #51cf66;
+        }
+        
+        .comparison-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .comparison-before .comparison-title {
+            color: #c92a2a;
+        }
+        
+        .comparison-after .comparison-title {
+            color: #2b8a3e;
+        }
+        
+        .comparison-items {
+            list-style: none;
+            text-align: left;
+            padding: 0;
+        }
+        
+        .comparison-items li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+            font-size: 0.95em;
+        }
+        
+        .comparison-before li::before {
+            content: '✗';
+            position: absolute;
+            left: 0;
+            color: #c92a2a;
+            font-weight: bold;
+        }
+        
+        .comparison-after li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #2b8a3e;
+            font-weight: bold;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+        
+        .cta-section h3 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+        }
+        
+        .icon-large {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .infographics-header h2 {
+                font-size: 1.8em;
+            }
+            
+            .infographic-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .infographic {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+
+
+    <main class="main-container">
+
+        <section class="banner-central">
+          <button class="brutalist-button">
+            <div class="ms-logo">
+            
+            </div>
+            <div class="button-text">
+              <span>Desarrollar & Actualizar</span>
+              <span>GRESANOVA</span>
+            </div>
+          </button>
+        </section>
+    </main>
+
+    <!-- SECCIÓN DE INFOGRAFÍAS -->
+    <section class="infographics-section">
+        <div class="infographics-header">
+            <h2>¿Por qué necesitas a GRESANOVA?</h2>
+            <p>Datos que revelan la necesidad de transformación empresarial</p>
+        </div>
+        
+        <div class="infographic-grid">
+            <!-- Infografía 1: El Problema de las Empresas Jóvenes -->
+            <div class="infographic">
+                <div class="icon-large">📉</div>
+                <h3 class="infographic-title">El Problema Real</h3>
+                <div class="stat-box">
+                    <div class="stat-number">80%</div>
+                    <div class="stat-label">de empresas jóvenes fracasan en los primeros 5 años</div>
+                </div>
+                <ul class="problem-list">
+                    <li class="problem-item">
+                        <span class="problem-icon">💸</span>
+                        <span class="problem-text">No conocen su rentabilidad real por producto o servicio</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">🎯</span>
+                        <span class="problem-text">Toman decisiones basadas en intuición, no en datos</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">⚙️</span>
+                        <span class="problem-text">Procesos desorganizados que dependen de personas clave</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">📊</span>
+                        <span class="problem-text">Crecen en ventas pero no en utilidades</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Infografía 2: El Costo de No Actuar -->
+            <div class="infographic">
+                <div class="icon-large">⏰</div>
+                <h3 class="infographic-title">El Costo de Esperar</h3>
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-value">40%</div>
+                        <div class="metric-label">Pérdida promedio por ineficiencias</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">15hrs</div>
+                        <div class="metric-label">Semanales desperdiciadas</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">$200K</div>
+                        <div class="metric-label">Costo anual de desorden</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">3x</div>
+                        <div class="metric-label">Más difícil corregir después</div>
+                    </div>
+                </div>
+                <div class="solution-box">
+                    <h3>Cada mes sin sistemas te cuesta</h3>
+                    <p>Oportunidades perdidas, clientes insatisfechos, estrés del equipo y dinero que se evapora sin control.</p>
+                </div>
+            </div>
+            
+            <!-- Infografía 3: Antes vs Después -->
+            <div class="infographic">
+                <div class="icon-large">🔄</div>
+                <h3 class="infographic-title">La Transformación</h3>
+                <div class="comparison">
+                    <div class="comparison-side comparison-before">
+                        <div class="comparison-title">Antes de GRESANOVA</div>
+                        <ul class="comparison-items">
+                            <li>Caos financiero</li>
+                            <li>Decisiones emocionales</li>
+                            <li>Trabajo reactivo</li>
+                            <li>Estrés constante</li>
+                            <li>Crecimiento estancado</li>
+                            <li>Desperdicio de recursos</li>
+                        </ul>
+                    </div>
+                    <div class="comparison-side comparison-after">
+                        <div class="comparison-title">Después de GRESANOVA</div>
+                        <ul class="comparison-items">
+                            <li>Control total</li>
+                            <li>Datos confiables</li>
+                            <li>Estrategia clara</li>
+                            <li>Tranquilidad</li>
+                            <li>Escalamiento real</li>
+                            <li>Optimización continua</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">+23%</div>
+                    <div class="stat-label">Incremento promedio en rentabilidad en 6 meses</div>
+                </div>
+            </div>
+            
+            <!-- Infografía 4: Nuestro Proceso -->
+            <div class="infographic">
+                <div class="icon-large">🚀</div>
+                <h3 class="infographic-title">Sistema GRESA™</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Transformación en 90 días</p>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-title">Semanas 1-2: Diagnóstico</div>
+                        <div class="timeline-desc">Análisis profundo de finanzas, operaciones y marketing</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Semanas 3-5: Diseño</div>
+                        <div class="timeline-desc">Creación de sistemas personalizados para tu empresa</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Semanas 6-13: Implementación</div>
+                        <div class="timeline-desc">Instalación guiada de procesos y herramientas</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Semanas 14-17: Optimización</div>
+                        <div class="timeline-desc">Ajustes finos basados en resultados reales</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Semanas 18-19: Transferencia</div>
+                        <div class="timeline-desc">Tu equipo completamente capacitado y autónomo</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Infografía 5: Resultados Garantizados -->
+            <div class="infographic">
+                <div class="icon-large">🎯</div>
+                <h3 class="infographic-title">Resultados Medibles</h3>
+                <ul class="problem-list">
+                    <li class="problem-item">
+                        <span class="problem-icon">📈</span>
+                        <span class="problem-text"><strong>+20% rentabilidad</strong> promedio en 6 meses</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">⏱️</span>
+                        <span class="problem-text"><strong>-40% tiempo</strong> en procesos administrativos</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">💰</span>
+                        <span class="problem-text"><strong>ROI de 400%+</strong> en el primer año</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">🔍</span>
+                        <span class="problem-text"><strong>100% claridad</strong> de tus números</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">🎓</span>
+                        <span class="problem-text"><strong>Conocimiento transferido</strong> a tu equipo</span>
+                    </li>
+                </ul>
+                <div class="solution-box">
+                    <h3>Garantía de Resultados</h3>
+                    <p>Si no mejoramos tu rentabilidad mínimo 15% en 6 meses, trabajamos gratis hasta lograrlo.</p>
+                </div>
+            </div>
+            
+            <!-- Infografía 6: Señales de que nos necesitas -->
+            <div class="infographic">
+                <div class="icon-large">🚨</div>
+                <h3 class="infographic-title">¿Nos Necesitas?</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">Si respondes SÍ a 3 o más, es momento de actuar:</p>
+                <ul class="problem-list">
+                    <li class="problem-item">
+                        <span class="problem-icon">❓</span>
+                        <span class="problem-text">No sabes cuál producto/servicio es más rentable</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">😰</span>
+                        <span class="problem-text">Te sorprendes con el saldo de tu cuenta bancaria</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">🔥</span>
+                        <span class="problem-text">Todos los días hay "urgencias" que atender</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">👤</span>
+                        <span class="problem-text">Tu negocio no funciona sin ti</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">📉</span>
+                        <span class="problem-text">Vendes más pero no ganas más</span>
+                    </li>
+                    <li class="problem-item">
+                        <span class="problem-icon">💭</span>
+                        <span class="problem-text">Sientes que trabajas mucho sin resultados claros</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h3>¿Listo para transformar tu empresa?</h3>
+            <a href="#contacto" class="cta-button">Agenda tu Diagnóstico Gratuito</a>
+        </div>
+    </section>
+
+    <div id="img-expandida-1" class="expanded-image-container hidden">
+        <img id="expanded-content-banner1" src="" alt="Contenido expandido">
+        <button onclick="hideExpandedImage('img-expandida-1')">X Cerrar</button>
+    </div>
+
+    <div class="container_carru">
+        <div id="actions">
+            <a id="arrowrigth">
+                <img src="img/flecha-pequena-derecha.png" class="arrowrigth" alt="Flecha derecha">
+            </a>
+            <a id="arrowleft">
+                <img src="img/flecha-pequena-izquierda.png" class="arrowleft" alt="Flecha izquierda">
+            </a>
+        </div>
+        <div id="items">
+            <img draggable="false" class="item" src="https://thumb9.shutterstock.com/display_pic_with_logo/176492940/1018241128/stock-vector-arabica-coffee-ads-with-a-cup-of-beverage-and-beans-in-d-illustration-with-retro-ingredient-plants-1018241128.jpg" alt="Anuncio de café arábica con taza">
+            <img draggable="false" class="item" src="https://image.shutterstock.com/image-vector/cup-coffee-beans-graphic-260nw-487613659.jpg" alt="Diseño gráfico de una taza de café y granos">
+            <img draggable="false" class="item" src="https://image.shutterstock.com/image-vector/coffee-graphic-design-vector-illustration-260nw-227954110.jpg" alt="Ilustración vectorial de diseño gráfico de café">
+            <img draggable="false" class="item" src="https://image.shutterstock.com/image-photo/fresh-coffee-260nw-97048451.jpg" alt="Fotografía de café fresco">
+            <img draggable="false" class="item" src="https://image.shutterstock.com/image-photo/cup-coffee-beans-cinnamon-sticks-260nw-133418606.jpg" alt="Taza de café con granos y ramas de canela">
+        </div>
+    </div>
+
+   <!-- Infografias -->
+
 
     <!-- CONTACTO -->
     <section id="contacto" class="contacto-section">
@@ -695,11 +1264,29 @@
         </form>
     </div>
 </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2025 GRESANOVA | Arquitectos de Negocios Exitosos | Conectar • Actualizar • Desarrollar</p>
-    </footer>
+<!-- FOOTER -->
+<footer>
+    <a href="https://wa.me/7775417367" target="_blank" rel="noopener noreferrer">
+        <div class="light-button">
+            <button class="bt">
+                <div class="light-holder">
+                    <div class="dot"></div>
+                    <div class="light"></div>
+                </div>
+                <div class="button-holder">
+                    <svg class="socialSvg whatsappSvg" viewBox="0 0 16 16">
+                        <path
+                            d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"
+                        ></path>
+                    </svg>
+                    <p>Whatsapp</p>
+                </div>
+            </button>
+        </div>
+    </a>
+    
+    <p>© 2025 GRESANOVA | Arquitectos de Negocios Exitosos | Conectar • Actualizar • Desarrollar</p>
+</footer>
 
     <script>
         // Menú móvil
@@ -737,6 +1324,3 @@
     </script>
 </body>
 </html>
-
-
-
