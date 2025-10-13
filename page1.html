@@ -672,26 +672,29 @@
 
     <!-- CONTACTO -->
     <section id="contacto" class="contacto-section">
-        <h2 class="section-title">Contáctanos</h2>
-        <p class="section-subtitle">Comencemos a transformar tu negocio hoy</p>
-        
-        <div class="contacto-container">
-            <form class="formulario">
-                <h2>Envíanos un mensaje</h2>
-                
-                <label for="nombre-contacto" class="sr-only">Nombre completo</label>
-                <input type="text" id="nombre-contacto" placeholder="Nombre completo" required />
+    <h2 class="section-title">Contáctanos</h2>
+    <p class="section-subtitle">Comencemos a transformar tu negocio hoy</p>
+    
+    <div class="contacto-container">
+        <form class="formulario" 
+              action="https://formspree.io/f/xgvnpzqk" 
+              method="POST"> 
+            
+            <h2>Envíanos un mensaje</h2>
+            
+            <label for="nombre-contacto" class="sr-only">Nombre completo</label>
+            <input type="text" id="nombre-contacto" name="Nombre" placeholder="Nombre completo" required />
 
-                <label for="email-contacto" class="sr-only">Correo electrónico</label>
-                <input type="email" id="email-contacto" placeholder="Correo electrónico" required />
+            <label for="email-contacto" class="sr-only">Correo electrónico</label>
+            <input type="email" id="email-contacto" name="Email" placeholder="Correo electrónico" required />
 
-                <label for="mensaje-contacto" class="sr-only">Mensaje</label>
-                <textarea id="mensaje-contacto" placeholder="Cuéntanos sobre tu proyecto o necesidad" required></textarea>
+            <label for="mensaje-contacto" class="sr-only">Mensaje</label>
+            <textarea id="mensaje-contacto" name="Mensaje" placeholder="Cuéntanos sobre tu proyecto o necesidad" required></textarea>
 
-                <button type="submit">Enviar Mensaje</button>
-            </form>
-        </div>
-    </section>
+            <button type="submit">Enviar Mensaje</button>
+        </form>
+    </div>
+</section>
 
     <!-- FOOTER -->
     <footer>
@@ -734,5 +737,6 @@
     </script>
 </body>
 </html>
+
 
 
