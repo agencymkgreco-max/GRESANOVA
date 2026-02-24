@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+    cursor: none;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+
+  #center-btn {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid rgba(255,255,255,0.15);
+    box-shadow:
+      0 0 30px rgba(255,100,0,0.3),
+      0 0 60px rgba(0,150,255,0.2),
+      inset 0 0 30px rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  #center-btn:hover {
+    box-shadow:
+      0 0 50px rgba(255,100,0,0.6),
+      0 0 100px rgba(0,150,255,0.4),
+      inset 0 0 30px rgba(0,0,0,0.8);
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+
+  #center-btn img {
+    max-width: 120px;
+    max-height: 120px;
+    border-radius: 50%;
+    object-fit: contain;
+    display: none;
+  }
+
+  #logo-placeholder {
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.4;
+    padding: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  #logo-placeholder span {
+    display: block;
+    font-size: 9px;
+    margin-top: 6px;
+    opacity: 0.4;
+  }
+
+  #upload-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.25);
+    font-size: 11px;
+    letter-spacing: 2px;
+    z-index: 100;
+  }
+
+  #custom-cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px white, 0 0 20px white;
+  }
+
+  #logo-upload {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<div id="custom-cursor"></div>
+
+<button id="center-btn" onclick="document.getElementById('logo-upload').click()">
+  <img id="logo-img" src="" alt="Logo">
+  <div id="logo-placeholder">
+    TU LOGO
+    <span>Click para subir imagen</span>
+  </div>
+</button>
+
+<input type="file" id="logo-upload" accept="image/*">
+<div id="upload-hint">MUEVE EL CURSOR · MOVE THE CURSOR</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const cursor = document.getElementById('custom-cursor');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+let time = 0;
+
+// Audio context for ambient sound
+let audioCtx = null;
+let audioStarted = false;
+
+function startAudio() {
+  if (audioStarted) return;
+  audioStarted = true;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Create layered ambient drone
+  const freqs = [55, 110, 164.81, 220];
+  freqs.forEach((freq, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const filter = audioCtx.createBiquadFilter();
+
+    osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+    filter.type = 'lowpass';
+    filter.frequency.value = 300 + i * 100;
+
+    gain.gain.setValueAtTime(0, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.03 / (i + 1), audioCtx.currentTime + 2);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+
+    // Slow LFO modulation
+    const lfo = audioCtx.createOscillator();
+    const lfoGain = audioCtx.createGain();
+    lfo.frequency.value = 0.1 + i * 0.05;
+    lfoGain.gain.value = 2;
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+    lfo.start();
+  });
+}
+
+document.addEventListener('click', startAudio);
+document.addEventListener('mousemove', startAudio, { once: true });
+
+// Particles
+const particles = [];
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 0.5,
+    speed: Math.random() * 0.3 + 0.1,
+    drift: (Math.random() - 0.5) * 0.3,
+    opacity: Math.random() * 0.5 + 0.1,
+    color: Math.random() > 0.5 ? `rgba(255,${80+Math.floor(Math.random()*80)},0,` : `rgba(0,${100+Math.floor(Math.random()*100)},255,`
+  });
+}
+
+// Koi fish drawing
+function drawKoi(x, y, angle, scale, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  ctx.scale(scale, scale);
+
+  const neon = `rgba(255, 100, 0,`;
+  const neonBright = `rgba(255, 160, 50,`;
+
+  // Glow
+  ctx.shadowBlur = 30;
+  ctx.shadowColor = 'rgba(255, 100, 0, 0.8)';
+
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 28, 12, 0, 0, Math.PI * 2);
+  const bodyGrad = ctx.createRadialGradient(-5, 0, 2, 0, 0, 28);
+  bodyGrad.addColorStop(0, 'rgba(255,200,100,0.95)');
+  bodyGrad.addColorStop(0.5, 'rgba(255,100,0,0.9)');
+  bodyGrad.addColorStop(1, 'rgba(200,50,0,0.8)');
+  ctx.fillStyle = bodyGrad;
+  ctx.fill();
+
+  // Tail
+  ctx.beginPath();
+  ctx.moveTo(-20, 0);
+  const tailWave = Math.sin(t * 4) * 8;
+  ctx.bezierCurveTo(-32, tailWave - 10, -38, tailWave - 16, -44, tailWave - 8);
+  ctx.bezierCurveTo(-38, tailWave, -38, tailWave + 16, -44, tailWave + 8);
+  ctx.bezierCurveTo(-38, tailWave + 16, -32, tailWave + 10, -20, 0);
+  ctx.fillStyle = 'rgba(255,80,0,0.8)';
+  ctx.fill();
+
+  // Fins
+  ctx.beginPath();
+  ctx.moveTo(0, -12);
+  ctx.bezierCurveTo(8, -22 + Math.sin(t*3)*3, -8, -22 + Math.sin(t*3)*3, -10, -12);
+  ctx.fillStyle = 'rgba(255,120,20,0.6)';
+  ctx.fill();
+
+  // Eye
+  ctx.shadowBlur = 15;
+  ctx.shadowColor = 'rgba(255,255,200,1)';
+  ctx.beginPath();
+  ctx.arc(18, -3, 3, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,150,0.95)';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(18, -3, 1.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#000';
+  ctx.fill();
+
+  // Scale pattern shimmer
+  ctx.shadowBlur = 0;
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath();
+    ctx.arc(-10 + i * 8, Math.sin(i) * 3, 5, Math.PI, 0);
+    ctx.strokeStyle = `rgba(255,200,100,${0.2 + Math.sin(t + i) * 0.1})`;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+// Eagle drawing
+function drawEagle(x, y, angle, scale, t) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  ctx.scale(scale, scale);
+
+  ctx.shadowBlur = 35;
+  ctx.shadowColor = 'rgba(0, 150, 255, 0.9)';
+
+  const wingFlap = Math.sin(t * 5) * 12;
+
+  // Left wing
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(-20, -10 - wingFlap, -45, -20 - wingFlap, -55, -5 - wingFlap);
+  ctx.bezierCurveTo(-45, 5 - wingFlap * 0.5, -20, 5, 0, 8);
+  const wingGradL = ctx.createLinearGradient(-55, -20, 0, 0);
+  wingGradL.addColorStop(0, 'rgba(0,200,255,0.4)');
+  wingGradL.addColorStop(1, 'rgba(0,100,255,0.9)');
+  ctx.fillStyle = wingGradL;
+  ctx.fill();
+
+  // Right wing
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.bezierCurveTo(20, -10 - wingFlap, 45, -20 - wingFlap, 55, -5 - wingFlap);
+  ctx.bezierCurveTo(45, 5 - wingFlap * 0.5, 20, 5, 0, 8);
+  const wingGradR = ctx.createLinearGradient(55, -20, 0, 0);
+  wingGradR.addColorStop(0, 'rgba(0,200,255,0.4)');
+  wingGradR.addColorStop(1, 'rgba(0,100,255,0.9)');
+  ctx.fillStyle = wingGradR;
+  ctx.fill();
+
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(0, 4, 8, 16, 0, 0, Math.PI * 2);
+  const bodyGrad = ctx.createRadialGradient(0, 0, 2, 0, 4, 16);
+  bodyGrad.addColorStop(0, 'rgba(150,230,255,0.95)');
+  bodyGrad.addColorStop(1, 'rgba(0,80,200,0.9)');
+  ctx.fillStyle = bodyGrad;
+  ctx.fill();
+
+  // Head
+  ctx.shadowColor = 'rgba(100,220,255,1)';
+  ctx.beginPath();
+  ctx.arc(0, -10, 7, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(200,240,255,0.95)';
+  ctx.fill();
+
+  // Beak
+  ctx.beginPath();
+  ctx.moveTo(5, -12);
+  ctx.lineTo(14, -10);
+  ctx.lineTo(5, -8);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(0,200,255,0.9)';
+  ctx.fill();
+
+  // Eye
+  ctx.shadowBlur = 20;
+  ctx.shadowColor = 'rgba(255,255,255,1)';
+  ctx.beginPath();
+  ctx.arc(3, -11, 2, 0, Math.PI * 2);
+  ctx.fillStyle = 'white';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(3, -11, 1, 0, Math.PI * 2);
+  ctx.fillStyle = '#000';
+  ctx.fill();
+
+  // Tail feathers
+  ctx.beginPath();
+  ctx.moveTo(-6, 18);
+  ctx.bezierCurveTo(-12, 28, -8, 34, -4, 28);
+  ctx.bezierCurveTo(0, 34, 0, 34, 0, 28);
+  ctx.bezierCurveTo(4, 34, 8, 34, 4, 28);
+  ctx.bezierCurveTo(8, 34, 12, 28, 6, 18);
+  ctx.fillStyle = 'rgba(0,120,255,0.7)';
+  ctx.fill();
+
+  ctx.restore();
+}
+
+// Orbit state
+let koiAngle = 0;
+let eagleAngle = Math.PI;
+let koiOrbitR = 130;
+let eagleOrbitR = 180;
+let smoothMouse = { x: canvas.width / 2, y: canvas.height / 2 };
+
+function animate() {
+  requestAnimationFrame(animate);
+  time += 0.016;
+
+  // Smooth mouse follow
+  smoothMouse.x += (mouse.x - smoothMouse.x) * 0.05;
+  smoothMouse.y += (mouse.y - smoothMouse.y) * 0.05;
+
+  // Fade trail
+  ctx.fillStyle = 'rgba(0,0,0,0.15)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Particles
+  particles.forEach(p => {
+    p.y -= p.speed;
+    p.x += p.drift;
+    if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+    if (p.x < 0 || p.x > canvas.width) p.drift *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color + p.opacity + ')';
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = p.color + '0.5)';
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  });
+
+  // Orbit speeds
+  koiAngle += 0.012;
+  eagleAngle += 0.008;
+
+  // Koi position
+  const koiX = smoothMouse.x + Math.cos(koiAngle) * koiOrbitR;
+  const koiY = smoothMouse.y + Math.sin(koiAngle) * (koiOrbitR * 0.55);
+  const koiDir = koiAngle + Math.PI / 2 + Math.PI;
+  drawKoi(koiX, koiY, koiDir, 1, time);
+
+  // Eagle position
+  const eagleX = smoothMouse.x + Math.cos(eagleAngle) * eagleOrbitR;
+  const eagleY = smoothMouse.y + Math.sin(eagleAngle) * (eagleOrbitR * 0.45);
+  const eagleDir = eagleAngle + Math.PI / 2 + Math.PI;
+  drawEagle(eagleX, eagleY, eagleDir, 1, time);
+
+  // Orbit trail glow ring
+  ctx.beginPath();
+  ctx.ellipse(smoothMouse.x, smoothMouse.y, koiOrbitR, koiOrbitR * 0.55, 0, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,80,0,0.04)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.ellipse(smoothMouse.x, smoothMouse.y, eagleOrbitR, eagleOrbitR * 0.45, 0, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(0,120,255,0.04)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+// Mouse tracking
+document.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+// Touch support
+document.addEventListener('touchmove', e => {
+  e.preventDefault();
+  mouse.x = e.touches[0].clientX;
+  mouse.y = e.touches[0].clientY;
+}, { passive: false });
+
+// Resize
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+// Logo upload
+document.getElementById('logo-upload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = document.getElementById('logo-img');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    document.getElementById('logo-placeholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+});
+
+animate();
+</script>
+</body>
+</html>
