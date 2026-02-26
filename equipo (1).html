@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRESANOVA — Equipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050508;
+    --dark: #0a0a12;
+    --card: #0f0f1a;
+    --border: rgba(255,255,255,0.07);
+    --accent: #00f0ff;
+    --accent2: #7c3aed;
+    --gold: #f5c842;
+    --white: #f0f0f0;
+    --muted: rgba(240,240,240,0.45);
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(5,5,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 30%, rgba(0,240,255,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(124,58,237,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 20%, rgba(245,200,66,0.04) 0%, transparent 60%);
+  }
+
+  /* Grid lines */
+  .hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,240,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,240,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    border: 1px solid rgba(0,240,255,0.3);
+    padding: 0.4rem 1.2rem;
+    margin-bottom: 2rem;
+    position: relative; z-index: 1;
+    animation: fadeIn 0.8s ease forwards;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 9rem);
+    letter-spacing: 6px;
+    line-height: 0.95;
+    position: relative; z-index: 1;
+    animation: slideUp 0.9s ease forwards;
+  }
+  .hero h1 .accent { color: var(--accent); }
+
+  .hero-sub {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    position: relative; z-index: 1;
+    animation: fadeIn 1.2s ease forwards;
+  }
+
+  /* ORG CHART SECTION */
+  .org-section {
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    text-align: center;
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .section-title em { color: var(--accent); font-style: normal; }
+
+  .section-desc {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    letter-spacing: 1px;
+    margin-bottom: 5rem;
+  }
+
+  /* FLAT ORG — circle of peers */
+  .org-philosophy {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    max-width: 700px;
+    margin-left: auto; margin-right: auto;
+    position: relative;
+    background: linear-gradient(135deg, rgba(0,240,255,0.03), rgba(124,58,237,0.03));
+  }
+  .org-philosophy::before {
+    content: 'ESTRUCTURA HORIZONTAL';
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 4px;
+    color: var(--accent);
+    position: absolute;
+    top: -0.6rem; left: 50%; transform: translateX(-50%);
+    background: var(--black);
+    padding: 0 1rem;
+  }
+  .org-philosophy p {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+  .org-philosophy strong { color: var(--accent); }
+
+  /* TEAM GRID */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .member-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease, border-color 0.4s ease;
+    cursor: pointer;
+  }
+
+  .member-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+
+  .member-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,240,255,0.2);
+    z-index: 2;
+  }
+  .member-card:hover::before { transform: scaleX(1); }
+
+  .member-number {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: rgba(0,240,255,0.3);
+    margin-bottom: 1.5rem;
+  }
+
+  .member-photo-wrap {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  .member-photo-wrap::before {
+    content: '';
+    position: absolute; inset: -3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    z-index: 0;
+  }
+  .member-photo {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    position: relative; z-index: 1;
+    background: var(--dark);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: var(--accent);
+  }
+
+  .avatar-placeholder {
+    width: 74px; height: 74px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(0,240,255,0.1), rgba(124,58,237,0.1));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--accent);
+    position: relative; z-index: 1;
+  }
+
+  .member-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    letter-spacing: 3px;
+    margin-bottom: 0.3rem;
+  }
+
+  .member-role {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .member-desc {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .member-socials {
+    display: flex; gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .social-link {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.8rem;
+    transition: all 0.3s;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .social-link:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(0,240,255,0.05);
+  }
+  .social-link svg { width: 10px; height: 10px; fill: currentColor; }
+
+  /* EQUAL BADGE */
+  .equal-ring {
+    display: flex; flex-direction: column; align-items: center;
+    margin: 5rem auto;
+    padding: 4rem 2rem;
+    position: relative;
+    max-width: 600px;
+  }
+  .equal-ring::before {
+    content: '';
+    position: absolute; inset: 0;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+  }
+  .equal-ring-text {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    letter-spacing: 6px;
+    color: var(--accent);
+    text-align: center;
+  }
+  .equal-ring-sub {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .team-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="GRESANOVA_redesign.html" class="nav-logo">GRES<span>A</span>NOVA</a>
+  <ul class="nav-links">
+    <li><a href="GRESANOVA_redesign.html#hero">Inicio</a></li>
+    <li><a href="GRESANOVA_redesign.html#servicios">Servicios</a></li>
+    <li><a href="GRESANOVA_redesign.html#mision-vision">Nosotros</a></li>
+    <li><a href="equipo.html" class="active">Equipo</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="GRESANOVA_redesign.html#contacto">Diagnóstico</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag">// MÓDULO · EQUIPO HUMANO</div>
+  <h1>NUESTRO<br><span class="accent">EQUIPO</span></h1>
+  <p class="hero-sub">Arquitectos — Estrategas — Transformadores</p>
+</section>
+
+<!-- ORG -->
+<section class="org-section">
+  <div class="section-tag">// ESTRUCTURA ORGANIZACIONAL</div>
+  <h2 class="section-title">Somos <em>Iguales.</em></h2>
+  <p class="section-desc">Estructura horizontal · Cada voz tiene el mismo peso</p>
+
+  <div class="org-philosophy reveal">
+    <p>
+      En GRESANOVA creemos que las mejores ideas no tienen jerarquía.<br>
+      Cada integrante aporta con <strong>igual autoridad e igual responsabilidad</strong>.<br>
+      No hay jefes — hay roles. No hay órdenes — hay colaboración.
+    </p>
+  </div>
+
+  <!-- TEAM GRID — editable, agregar / quitar tarjetas libremente -->
+  <div class="team-grid" id="teamGrid">
+
+    <!-- INTEGRANTE 1 -->
+    <div class="member-card reveal">
+      <div class="member-number">001 — INTEGRANTE</div>
+      <div class="member-photo-wrap">
+        <div class="avatar-placeholder">GR</div>
+      </div>
+      <div class="member-name">TU NOMBRE</div>
+      <div class="member-role">ROL · ESPECIALIDAD</div>
+      <p class="member-desc">
+        Breve descripción de este integrante, su área de expertise y su aportación al equipo de GRESANOVA. Máximo 2-3 líneas.
+      </p>
+      <div class="member-socials">
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+
+    <!-- INTEGRANTE 2 -->
+    <div class="member-card reveal">
+      <div class="member-number">002 — INTEGRANTE</div>
+      <div class="member-photo-wrap">
+        <div class="avatar-placeholder">GR</div>
+      </div>
+      <div class="member-name">TU NOMBRE</div>
+      <div class="member-role">ROL · ESPECIALIDAD</div>
+      <p class="member-desc">
+        Breve descripción de este integrante, su área de expertise y su aportación al equipo de GRESANOVA.
+      </p>
+      <div class="member-socials">
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+
+    <!-- INTEGRANTE 3 -->
+    <div class="member-card reveal">
+      <div class="member-number">003 — INTEGRANTE</div>
+      <div class="member-photo-wrap">
+        <div class="avatar-placeholder">GR</div>
+      </div>
+      <div class="member-name">TU NOMBRE</div>
+      <div class="member-role">ROL · ESPECIALIDAD</div>
+      <p class="member-desc">
+        Breve descripción de este integrante, su área de expertise y su aportación al equipo de GRESANOVA.
+      </p>
+      <div class="member-socials">
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+
+    <!-- INTEGRANTE 4 -->
+    <div class="member-card reveal">
+      <div class="member-number">004 — INTEGRANTE</div>
+      <div class="member-photo-wrap">
+        <div class="avatar-placeholder">GR</div>
+      </div>
+      <div class="member-name">TU NOMBRE</div>
+      <div class="member-role">ROL · ESPECIALIDAD</div>
+      <p class="member-desc">
+        Breve descripción de este integrante, su área de expertise y su aportación al equipo de GRESANOVA.
+      </p>
+      <div class="member-socials">
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="#" class="social-link">
+          <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /team-grid -->
+
+  <!-- MANIFESTO -->
+  <div class="equal-ring reveal">
+    <div class="equal-ring-text">JUNTOS<br>TRANSFORMAMOS</div>
+    <div class="equal-ring-sub">Un equipo · Un sistema · Un resultado</div>
+  </div>
+
+</section>
+
+<footer>
+  <span>© 2025 GRESANOVA · ARQUITECTOS DE NEGOCIOS EXITOSOS</span>
+  <span><a href="GRESANOVA_redesign.html">Inicio</a> · <a href="galeria.html">Galería</a> · <a href="GRESANOVA_redesign.html#contacto">Diagnóstico</a></span>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Stagger cards
+  document.querySelectorAll('.member-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.07}s`;
+  });
+</script>
+</body>
+</html>
