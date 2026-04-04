@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRESANOVA — Galería</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="galeria.css">
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-content">
+    <button class="lb-close" id="lbClose">ESC · CERRAR ×</button>
+    <img id="lbImg" src="" alt="">
+    <div class="lb-meta">
+      <span id="lbTag">// DETRÁS DE CÁMARAS</span>
+      <span>GRESANOVA <span>©</span> 2025</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="GRESANOVA_redesign.html" class="nav-logo">GRES<span>A</span>NOVA</a>
+  <ul class="nav-links">
+    <li><a href="GRESANOVA_redesign.html#hero">Inicio</a></li>
+    <li><a href="GRESANOVA_redesign.html#servicios">Servicios</a></li>
+    <li><a href="GRESANOVA_redesign.html#mision-vision">Nosotros</a></li>
+    <li><a href="equipo.html">Equipo</a></li>
+    <li><a href="galeria.html" class="active">Galería</a></li>
+    <li><a href="GRESANOVA_redesign.html#contacto">Diagnóstico</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-tag">// ARCHIVO VISUAL · DETRÁS DE CÁMARAS</div>
+  <h1>
+    <span class="ghost">DETRÁS</span><br>
+    <span class="accent">DE CÁMARAS</span>
+  </h1>
+  <p class="hero-sub">El proceso — El trabajo — La transformación</p>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- GALLERY SECTION -->
+<section class="gallery-section">
+  <div class="section-tag">// GALERÍA · REFLEXIÓN</div>
+  <h2 class="section-title reveal">Momentos <em>Reales.</em></h2>
+  <p class="section-desc reveal">El trabajo que no se ve — el que define el resultado</p>
+
+  <div class="filter-tabs reveal">
+    <button class="filter-btn active" data-filter="all">TODO</button>
+    <button class="filter-btn" data-filter="trabajo">TRABAJO</button>
+    <button class="filter-btn" data-filter="equipo">EQUIPO</button>
+    <button class="filter-btn" data-filter="evento">EVENTOS</button>
+    <button class="filter-btn" data-filter="proceso">PROCESO</button>
+  </div>
+
+  <!--
+    ════════════════════════════════════════════════
+    📸 CÓMO AGREGAR FOTOS:
+    1. Sube tus imágenes al mismo folder que este HTML
+    2. Duplica cualquier bloque .photo-block
+    3. Cambia src="tu-foto.jpg"
+    4. Ajusta data-filter (trabajo | equipo | evento | proceso)
+    5. Cambia data-title y data-cat
+    ════════════════════════════════════════════════
+  -->
+  <div class="gallery-grid" id="galleryGrid">
+
+    <div class="photo-block" data-filter="trabajo" data-title="SESIÓN ESTRATÉGICA" data-cat="TRABAJO">
+      <div class="photo-top">
+        <img src="foto1.jpg" alt="Sesión estratégica" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// TRABAJO</div><div class="label-title">SESIÓN ESTRATÉGICA</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="equipo" data-title="REUNIÓN DE EQUIPO" data-cat="EQUIPO">
+      <div class="photo-top">
+        <img src="foto2.jpg" alt="Reunión de equipo" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// EQUIPO</div><div class="label-title">REUNIÓN DE EQUIPO</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="evento" data-title="PRESENTACIÓN CLIENTE" data-cat="EVENTO">
+      <div class="photo-top">
+        <img src="foto3.jpg" alt="Presentación cliente" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// EVENTO</div><div class="label-title">PRESENTACIÓN CLIENTE</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="proceso" data-title="ANÁLISIS DE DATOS" data-cat="PROCESO">
+      <div class="photo-top">
+        <img src="foto4.jpg" alt="Análisis de datos" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// PROCESO</div><div class="label-title">ANÁLISIS DE DATOS</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="equipo" data-title="DETRÁS DE CÁMARAS" data-cat="EQUIPO">
+      <div class="photo-top">
+        <img src="foto5.jpg" alt="Detrás de cámaras" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// EQUIPO</div><div class="label-title">DETRÁS DE CÁMARAS</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="trabajo" data-title="DISEÑO DE ESTRATEGIA" data-cat="TRABAJO">
+      <div class="photo-top">
+        <img src="foto6.jpg" alt="Diseño de estrategia" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// TRABAJO</div><div class="label-title">DISEÑO DE ESTRATEGIA</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="evento" data-title="PITCH DAY" data-cat="EVENTO">
+      <div class="photo-top">
+        <img src="foto7.jpg" alt="Pitch day" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// EVENTO</div><div class="label-title">PITCH DAY</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="proceso" data-title="IMPLEMENTACIÓN" data-cat="PROCESO">
+      <div class="photo-top">
+        <img src="foto8.jpg" alt="Implementación" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// PROCESO</div><div class="label-title">IMPLEMENTACIÓN</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <div class="photo-block" data-filter="equipo" data-title="BRAINSTORMING" data-cat="EQUIPO">
+      <div class="photo-top">
+        <img src="foto9.jpg" alt="Brainstorming" crossorigin="anonymous">
+        <div class="photo-label"><div class="label-cat">// EQUIPO</div><div class="label-title">BRAINSTORMING</div></div>
+      </div>
+      <div class="reflection-divider"></div>
+      <canvas class="reflection-canvas"></canvas>
+      <div class="water-fade"></div>
+    </div>
+
+    <!-- ➕ Copia cualquier bloque de arriba para agregar más fotos -->
+
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 GRESANOVA · ARQUITECTOS DE NEGOCIOS EXITOSOS</span>
+  <span><a href="GRESANOVA_redesign.html">Inicio</a> · <a href="equipo.html">Equipo</a> · <a href="GRESANOVA_redesign.html#contacto">Diagnóstico</a></span>
+</footer>
+
+<script src="galeria.js"></script>
+</body>
+</html>
