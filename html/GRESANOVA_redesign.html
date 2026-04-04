@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRESANOVA — Arquitectos de Negocios Exitosos</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/gresanova_redesign.css">
+</head>
+
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="data-streams" id="dataStreams"></div>
+
+  <nav id="mainNav">
+    <a href="#hero" class="nav-logo">
+      <div class="logo-img-wrap">
+        <img src="../img/IMG-20251013-WA0001.jpg" alt="GRESANOVA" class="logo-img" onerror="this.style.display='none'">
+      </div>
+      <div class="logo-text-wrap">
+        <span class="logo-text" id="logoText">GRES<span class="a-accent">A</span>NOVA</span>
+        <span class="logo-sub">Arquitectos de Negocios</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#hero">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#mision-vision">Nosotros</a></li>
+      <li><a href="#sistema">Sistema</a></li>
+      <li><a href="#impacto-global" class="nav-link-special">🌐 Impacto Global</a></li>
+      <li><a href="equipo (1).html" class="nav-link-special">Equipo</a></li>
+      <li><a href="galeria.html" class="nav-link-special">Galería</a></li>
+      <li><a href="#contacto" class="nav-cta">Diagnóstico</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#hero">Inicio</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#mision-vision">Nosotros</a></li>
+      <li><a href="#sistema">Sistema</a></li>
+      <div class="mobile-divider"></div>
+      <li><a href="#impacto-global">🌐 Impacto Global</a></li>
+      <li><a href="equipo (1).html">Equipo</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+    </ul>
+    <a href="#contacto" class="mobile-cta">→ Diagnóstico Gratuito</a>
+  </div>
+
+  <section id="hero">
+    <div class="hero-content">
+      <div class="hero-tag">ARQUITECTOS DE NEGOCIOS EXITOSOS</div>
+      <h1 class="hero-title">
+        <span class="glitch-text" data-text="GRESANOVA">GRESANOVA</span>
+        <span class="line2">TRANSFORMA</span>
+      </h1>
+      <p class="hero-subtitle">Conectamos, Actualizamos y Desarrollamos empresas jóvenes mediante soluciones integrales
+        en finanzas, administración, marketing y optimización de procesos.</p>
+      <div class="hero-buttons">
+        <a href="#servicios" class="btn-primary">Nuestros Servicios</a>
+        <a href="#contacto" class="btn-secondary">Contáctanos</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-ring ring1">
+        <div class="ring-dot"></div>
+      </div>
+      <div class="hero-ring ring2">
+        <div class="ring-dot"></div>
+      </div>
+      <div class="hero-ring ring3">
+        <div class="ring-dot"></div>
+      </div>
+      <div class="hero-center">
+        <div class="hero-center-logo">GRN</div>
+        <div class="hero-center-text">SISTEMA GRESA™</div>
+      </div>
+    </div>
+    <div class="scroll-hint"><span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-item"><span class="stat-number" data-target="20">0</span><span class="stat-label">% Incremento en
+          rentabilidad</span></div>
+      <div class="stat-item"><span class="stat-number" data-target="40">0</span><span class="stat-label">% Reducción en
+          tiempo operativo</span></div>
+      <div class="stat-item"><span class="stat-number" data-target="400">0</span><span class="stat-label">% ROI promedio
+          primer año</span></div>
+      <div class="stat-item"><span class="stat-number" data-target="90">0</span><span class="stat-label">Días de
+          transformación</span></div>
+    </div>
+  </section>
+
+  <section id="servicios">
+    <div class="section-header">
+      <span class="section-tag">// MÓDULOS DE SERVICIO</span>
+      <h2 class="section-title">Nuestros <em>Servicios</em></h2>
+      <p style="color:var(--white-dim);margin-top:1rem;font-size:1rem;">Soluciones integrales para transformar tu
+        negocio</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><span class="service-num">MODULE_01</span><span class="service-icon">💰</span>
+        <h3 class="service-title">FINANZAS</h3>
+        <p class="service-desc">Orden, claridad y rentabilidad. Transformamos tus números en decisiones estratégicas que
+          impulsan el crecimiento sostenible de tu empresa.</p>
+        <div class="service-corner"></div>
+      </div>
+      <div class="service-card"><span class="service-num">MODULE_02</span><span class="service-icon">⚙️</span>
+        <h3 class="service-title">ADMINISTRACIÓN</h3>
+        <p class="service-desc">Procesos optimizados que te ahorran tiempo y dinero. Eficiencia operativa que se traduce
+          en resultados medibles y consistentes.</p>
+        <div class="service-corner"></div>
+      </div>
+      <div class="service-card"><span class="service-num">MODULE_03</span><span class="service-icon">📈</span>
+        <h3 class="service-title">MARKETING</h3>
+        <p class="service-desc">Estrategias que conectan con tu audiencia. Comunicación efectiva que genera ventas
+          reales y construye lealtad duradera con tus clientes.</p>
+        <div class="service-corner"></div>
+      </div>
+      <div class="service-card"><span class="service-num">MODULE_04</span><span class="service-icon">🎯</span>
+        <h3 class="service-title">OPTIMIZACIÓN</h3>
+        <p class="service-desc">Identificamos y eliminamos cuellos de botella. Tu empresa funcionando al máximo de su
+          potencial productivo con sistemas escalables.</p>
+        <div class="service-corner"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mision-vision">
+    <div class="section-header">
+      <span class="section-tag">// IDENTIDAD CORPORATIVA</span>
+      <h2 class="section-title">¿Quiénes <em>Somos?</em></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card" data-label="MISIÓN">
+        <h3 class="mv-title">MISIÓN</h3>
+        <p class="mv-text">Conectar, Actualizar y Desarrollar empresas jóvenes mediante soluciones integrales en
+          finanzas, administración, marketing y optimización de procesos, utilizando las herramientas más innovadoras
+          del mercado.</p>
+      </div>
+      <div class="mv-card" data-label="VISIÓN">
+        <h3 class="mv-title">VISIÓN</h3>
+        <p class="mv-text">Para 2028, ser reconocidos como los principales arquitectos de negocios exitosos en México,
+          impulsando la transformación y escalamiento de empresas jóvenes hacia la cima de sus industrias.</p>
+      </div>
+    </div>
+    <div class="section-header" style="margin-bottom:2rem;">
+      <span class="section-tag">// VALORES DEL SISTEMA</span>
+      <h2 class="section-title" style="font-size:1.8rem;">Nuestros <em>Valores</em></h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-item"><span class="value-name">Humildad</span><span class="value-desc">Escuchamos más de lo que
+          hablamos.</span></div>
+      <div class="value-item"><span class="value-name">Respeto</span><span class="value-desc">Valoramos el ritmo único
+          de cada empresa.</span></div>
+      <div class="value-item"><span class="value-name">Lealtad</span><span class="value-desc">Tu éxito es nuestro
+          éxito.</span></div>
+      <div class="value-item"><span class="value-name">Compromiso</span><span class="value-desc">Resultados medibles y
+          alcanzables.</span></div>
+      <div class="value-item"><span class="value-name">Innovación</span><span class="value-desc">Herramientas de
+          vanguardia probadas.</span></div>
+    </div>
+  </section>
+
+  <section id="por-que">
+    <div class="section-header">
+      <span class="section-tag">// ANÁLISIS DE DIAGNÓSTICO</span>
+      <h2 class="section-title">¿Por qué necesitas <em>GRESANOVA?</em></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="why-grid">
+      <div class="problem-box">
+        <div class="big-stat counter-val" data-target="80">0</div>
+        <div class="big-stat-label">de empresas jóvenes fracasan<br>en los primeros 5 años</div>
+        <ul class="problem-list">
+          <li>No conocen su rentabilidad real por producto o servicio</li>
+          <li>Toman decisiones basadas en intuición, no en datos</li>
+          <li>Procesos desorganizados que dependen de personas clave</li>
+          <li>Crecen en ventas pero no en utilidades</li>
+        </ul>
+      </div>
+      <div class="solution-box">
+        <h3
+          style="font-family:'Orbitron',monospace;font-size:0.9rem;letter-spacing:3px;color:var(--cyan);margin-bottom:2rem;margin-top:1rem;">
+          LA TRANSFORMACIÓN</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;">
+          <div style="padding:1.2rem;background:rgba(220,40,40,0.07);border:1px solid rgba(220,40,40,0.15);">
+            <div
+              style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:2px;color:rgba(220,40,40,0.7);margin-bottom:0.8rem;">
+              ANTES</div>
+            <div style="font-size:0.85rem;color:var(--white-dim);line-height:1.8;">Caos financiero<br>Decisiones
+              emocionales<br>Trabajo reactivo<br>Estrés constante<br>Crecimiento estancado</div>
+          </div>
+          <div style="padding:1.2rem;background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.15);">
+            <div
+              style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--cyan);margin-bottom:0.8rem;">
+              DESPUÉS</div>
+            <div style="font-size:0.85rem;color:var(--white-dim);line-height:1.8;">Control total<br>Datos
+              confiables<br>Estrategia clara<br>Tranquilidad<br>Escalamiento real</div>
+          </div>
+        </div>
+        <div
+          style="text-align:center;padding:1.5rem;border:1px solid rgba(0,212,255,0.2);background:rgba(0,212,255,0.04);">
+          <div
+            style="font-family:'Orbitron',monospace;font-size:2.5rem;font-weight:900;color:var(--cyan);text-shadow:0 0 30px rgba(0,212,255,0.5);">
+            +23%</div>
+          <div style="font-size:0.85rem;color:var(--white-dim);margin-top:0.3rem;">Incremento promedio en rentabilidad
+            en 6 meses</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sistema">
+    <div class="section-header">
+      <span class="section-tag">// PROTOCOLO DE TRANSFORMACIÓN</span>
+      <h2 class="section-title">Sistema <em>GRESA™</em></h2>
+      <p style="color:var(--white-dim);margin-top:1rem;font-size:1rem;">Transformación en 90 días</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">S1-2</div>
+        <div class="timeline-content"><span class="timeline-week">SEMANAS 01 — 02</span>
+          <h3 class="timeline-title">DIAGNÓSTICO</h3>
+          <p class="timeline-desc">Análisis profundo de finanzas, operaciones y marketing. Mapeamos tu situación actual
+            con precisión quirúrgica.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">S3-5</div>
+        <div class="timeline-content"><span class="timeline-week">SEMANAS 03 — 05</span>
+          <h3 class="timeline-title">DISEÑO</h3>
+          <p class="timeline-desc">Creación de sistemas personalizados para tu empresa. Arquitectura de procesos a
+            medida de tu industria.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">S6-13</div>
+        <div class="timeline-content"><span class="timeline-week">SEMANAS 06 — 13</span>
+          <h3 class="timeline-title">IMPLEMENTACIÓN</h3>
+          <p class="timeline-desc">Instalación guiada de procesos y herramientas. Acompañamiento cercano en cada etapa
+            del cambio.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">S14-17</div>
+        <div class="timeline-content"><span class="timeline-week">SEMANAS 14 — 17</span>
+          <h3 class="timeline-title">OPTIMIZACIÓN</h3>
+          <p class="timeline-desc">Ajustes finos basados en resultados reales. Calibramos el sistema para máximo
+            rendimiento.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">S18-19</div>
+        <div class="timeline-content"><span class="timeline-week">SEMANAS 18 — 19</span>
+          <h3 class="timeline-title">TRANSFERENCIA</h3>
+          <p class="timeline-desc">Tu equipo completamente capacitado y autónomo. El sistema vive en tu empresa, no
+            depende de nosotros.</p>
+        </div>
+      </div>
+    </div>
+    <div class="guarantee-box">
+      <div class="guarantee-icon">🛡️</div>
+      <h3 class="guarantee-title">GARANTÍA DE RESULTADOS</h3>
+      <p class="guarantee-text">Si no mejoramos tu rentabilidad mínimo <strong>15% en 6 meses</strong>, trabajamos
+        gratis hasta lograrlo. Sin excusas, sin letra pequeña.</p>
+    </div>
+  </section>
+
+  <section id="especialidades">
+    <div class="section-header">
+      <span class="section-tag">// ÁREAS DE EXPERTISE</span>
+      <h2 class="section-title">Nuestras <em>Especialidades</em></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="esp-grid">
+      <div class="esp-card">
+        <h3 class="esp-title">🏢 NEGOCIOS LOCALES</h3>
+        <ul class="esp-list">
+          <li>Finanzas sanas y proyecciones reales</li>
+          <li>Optimización de procesos operativos</li>
+          <li>Marketing local efectivo y medible</li>
+          <li>Presencia digital y física integrada</li>
+          <li>Planes de crecimiento paso a paso</li>
+        </ul>
+      </div>
+      <div class="esp-card">
+        <h3 class="esp-title">🗳️ MARKETING POLÍTICO</h3>
+        <ul class="esp-list">
+          <li>Estrategia integral de campaña</li>
+          <li>Marketing digital político efectivo</li>
+          <li>Gestión de imagen pública</li>
+          <li>Análisis de datos y segmentación</li>
+          <li>Operación territorial estratégica</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="impacto-global">
+    <div class="impacto-scan"></div>
+    <div class="section-header">
+      <span class="section-tag">// CONTEXTO MACRO · ECONOMÍA DIGITAL</span>
+      <h2 class="section-title">Impacto <em>Global</em> de las Tecnologías</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="impacto-intro">
+      <p>La digitalización ya no es opcional. Las empresas que la adoptan crecen <strong>3× más rápido</strong> que las
+        que no lo hacen. México tiene una oportunidad histórica: la economía digital puede sumar <strong>$150 mil
+          millones de dólares</strong> al PIB nacional. Conocer el panorama global es el primer paso para posicionarte
+        dentro de él.</p>
+    </div>
+    <div class="impacto-stats">
+      <div class="impacto-stat"><span class="impacto-stat-num">$16.5T</span><span class="impacto-stat-lbl">Economía
+          Digital 2028</span></div>
+      <div class="impacto-stat"><span class="impacto-stat-num">17%</span><span class="impacto-stat-lbl">Del PIB
+          Mundial</span></div>
+      <div class="impacto-stat"><span class="impacto-stat-num">7.6%</span><span class="impacto-stat-lbl">Crecimiento ICT
+          2023</span></div>
+      <div class="impacto-stat"><span class="impacto-stat-num">3×</span><span class="impacto-stat-lbl">Más rápido que la
+          economía</span></div>
+    </div>
+    <div class="impacto-cta-wrapper">
+      <div class="impacto-card">
+        <div class="impacto-card-inner">
+          <div class="impacto-card-icon">🌐</div>
+          <div class="impacto-card-text">
+            <span class="impacto-card-tag">// Mapa Interactivo · 40+ Países · 32 Estados de México</span>
+            <h3 class="impacto-card-title">Explora la Digitalización Mundial</h3>
+            <p class="impacto-card-desc">Visualiza en tiempo real cómo cada país y cada estado de México está
+              aprovechando la economía digital. Datos de la OCDE, Banco Mundial y Forrester — presentados en un mapa
+              interactivo diseñado para entender el contexto donde tu empresa compite.</p>
+            <a href="Impacto.html" target="_blank" rel="noopener" class="btn-impacto">Ver Mapa de Digitalización <span
+                class="btn-impacto-arrow">→</span></a>
+            <div class="impacto-pills">
+              <span class="impacto-pill">OECD 2024</span><span class="impacto-pill">World Bank</span><span
+                class="impacto-pill">Forrester</span><span class="impacto-pill">INEGI</span><span
+                class="impacto-pill">40+ países</span><span class="impacto-pill">México · 32 estados</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="section-header">
+      <h2 class="section-title">Comencemos a <em>Transformar</em></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>¿LISTO PARA DESPEGAR?</h3>
+        <p>Agenda tu diagnóstico gratuito hoy. En una sesión de 60 minutos identificamos las principales oportunidades
+          de crecimiento de tu empresa.</p>
+        <div class="contact-detail"><span style="color:var(--cyan)">📍</span><span>México</span></div>
+        <div class="contact-detail"><span style="color:var(--cyan)">📱</span><a href="https://wa.me/7775417367">+52 777
+            541 7367</a></div>
+        <a href="https://wa.me/7775417367" class="whatsapp-btn"><svg width="20" height="20" viewBox="0 0 24 24"
+            fill="currentColor">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+          </svg>Escribir por WhatsApp</a>
+      </div>
+      <div>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-group"><label>NOMBRE COMPLETO</label><input type="text" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group"><label>CORREO ELECTRÓNICO</label><input type="email" placeholder="correo@empresa.com"
+              required></div>
+          <div class="form-group"><label>MENSAJE</label><textarea placeholder="Cuéntanos sobre tu empresa..."
+              required></textarea></div>
+          <button type="submit" class="form-submit">Enviar Mensaje →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div class="footer-logo">GRES<span>A</span>NOVA</div>
+      <div class="footer-tagline">CONECTAR • ACTUALIZAR • DESARROLLAR</div>
+    </div>
+    <div class="footer-copy">© 2025 GRESANOVA<br>ARQUITECTOS DE NEGOCIOS EXITOSOS</div>
+  </footer>
+
+ <script src="../js/gresanova_redesign.js"></script>
+</body>
+
+</html>
