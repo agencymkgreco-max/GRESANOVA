@@ -1,8 +1,0 @@
-SUBIR A GITHUB (Add file > Upload files), arrastrando TODO el contenido de esta carpeta a la raiz del repo:
-  index.html, equipo.html, galeria.html, impacto.html, CNAME, css/, js/, fonts/
-
-BORRAR DEL REPO (Impacto.html choca con impacto.html y las dos fotos tienen derechos de autor):
-  Impacto.html   img/cami.jpg   img/han.jpg
-Opcional (sobrantes): READ-ME.txt, LICENSE.txt, page1.html, "equipo (1).html", GRESANOVA_redesign.html, html/, docs/
-
-Despues espera 1-2 min y recarga con Ctrl+Shift+R.

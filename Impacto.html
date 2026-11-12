@@ -3,789 +3,248 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digitalización Mundial — Impacto Económico</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Share+Tech+Mono&display=swap');
-
-:root {
-  --ng: #39FF14;
-  --no: #FF6B00;
-  --dbg: #020c02;
-  --cbg: rgba(3,14,6,0.97);
-  --grid: rgba(57,255,20,0.05);
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-html, body {
-  background: var(--dbg);
-  font-family: 'Exo 2', sans-serif;
-  color: var(--ng);
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-
-body::before {
-  content:'';
-  position:fixed; inset:0;
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── HEADER ── */
-header {
-  position: relative; z-index: 10;
-  text-align: center;
-  padding: 28px 20px 14px;
-  border-bottom: 1px solid rgba(57,255,20,0.18);
-  background: linear-gradient(180deg, rgba(57,255,20,0.04) 0%, transparent 100%);
-}
-.logo-tag {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px; color: var(--no);
-  letter-spacing: 4px; text-transform: uppercase;
-  margin-bottom: 8px; text-shadow: 0 0 12px var(--no);
-}
-h1 {
-  font-size: clamp(1.4rem,3vw,2.6rem); font-weight: 900;
-  background: linear-gradient(135deg, var(--ng) 0%, #aaff00 50%, var(--no) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  filter: drop-shadow(0 0 16px rgba(57,255,20,0.35));
-  margin-bottom: 5px;
-}
-.subtitle {
-  font-size: .85rem; color: rgba(57,255,20,0.5);
-  font-weight: 300; letter-spacing: 1px;
-}
-
-/* ── STATS BAR ── */
-.stats-bar {
-  display: flex; justify-content: center; gap: 32px;
-  padding: 12px 20px; border-bottom: 1px solid rgba(57,255,20,0.1);
-  flex-wrap: wrap; position: relative; z-index: 10;
-}
-.stat-item { text-align: center; }
-.stat-num {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1.3rem; color: var(--no);
-  text-shadow: 0 0 14px var(--no);
-}
-.stat-label {
-  font-size: .6rem; color: rgba(57,255,20,0.42);
-  letter-spacing: 1.5px; text-transform: uppercase;
-}
-
-/* ── WORLD MAP ── */
-#map-wrapper {
-  position: relative; z-index: 5;
-  width: 100%; max-width: 1400px; margin: 0 auto;
-  overflow: hidden;
-}
-#map-svg { width: 100%; display: block; }
-#ocean-canvas {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; z-index: 1;
-}
-
-.country {
-  stroke: rgba(57,255,20,0.12); stroke-width: 0.4;
-  cursor: pointer; transition: all .18s;
-}
-.country:hover {
-  stroke: var(--ng); stroke-width: 1.2;
-  filter: brightness(1.7) drop-shadow(0 0 8px var(--ng));
-}
-.mx-country {
-  stroke: rgba(255,140,0,0.3); stroke-width: 0.5;
-  cursor: pointer; transition: all .2s;
-}
-.mx-country:hover {
-  stroke: var(--no); stroke-width: 1.8;
-  filter: brightness(1.6) drop-shadow(0 0 14px rgba(255,107,0,0.7));
-}
-.mx-hint {
-  font-family: 'Share Tech Mono', monospace; font-size: 8px;
-  fill: rgba(255,200,80,0.75); pointer-events: none; text-anchor: middle;
-  paint-order: stroke fill; stroke: rgba(2,12,2,0.9); stroke-width: 2.5px;
-}
-
-/* ── TOOLTIP ── */
-#tooltip {
-  position: fixed; pointer-events: none;
-  z-index: 2000; opacity: 0;
-  transition: opacity .18s; max-width: 320px; min-width: 260px;
-}
-#tooltip.vis { opacity: 1; }
-.tip-in {
-  background: var(--cbg);
-  border: 1px solid rgba(57,255,20,0.4);
-  border-top: 3px solid var(--no);
-  border-radius: 4px; padding: 13px 16px;
-  box-shadow: 0 0 24px rgba(57,255,20,0.18);
-  backdrop-filter: blur(14px);
-}
-.tip-name { font-size: .92rem; font-weight: 700; color: var(--ng); text-shadow: 0 0 8px var(--ng); margin-bottom: 5px; }
-.tip-grow { display: flex; align-items: baseline; gap: 8px; margin-bottom: 7px; }
-.grow-num { font-family: 'Share Tech Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--no); text-shadow: 0 0 16px var(--no); line-height: 1; }
-.grow-lbl { font-size: .65rem; color: rgba(57,255,20,0.55); letter-spacing: 1px; text-transform: uppercase; line-height: 1.3; }
-.tip-bar-bg { background: rgba(57,255,20,0.08); border-radius: 2px; height: 4px; margin-bottom: 10px; overflow: hidden; }
-.tip-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--ng), var(--no)); box-shadow: 0 0 8px var(--no); transition: width .3s; }
-.tip-desc { font-size: .74rem; color: rgba(57,255,20,0.72); line-height: 1.5; border-top: 1px solid rgba(57,255,20,0.12); padding-top: 8px; font-weight: 300; }
-.tip-src { font-size: .59rem; color: rgba(57,255,20,0.28); margin-top: 5px; font-family: 'Share Tech Mono', monospace; }
-
-/* ── LEGEND ── */
-.legend {
-  position: absolute; bottom: 16px; left: 14px;
-  background: rgba(2,13,26,0.88);
-  border: 1px solid rgba(57,255,20,0.18);
-  border-radius: 4px; padding: 9px 13px;
-  z-index: 20; backdrop-filter: blur(8px);
-}
-.leg-title { font-size: .57rem; color: rgba(57,255,20,0.42); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-.leg-item { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; font-size: .67rem; color: rgba(57,255,20,0.62); }
-.leg-color { width: 18px; height: 9px; border-radius: 2px; flex-shrink: 0; }
-
-/* ══════════════════════════════════════════
-   MEXICO PANEL — full overlay with card grid
-   ══════════════════════════════════════════ */
-#mx-overlay {
-  position: fixed; inset: 0;
-  background: #020c02;
-  z-index: 100;
-  opacity: 0; pointer-events: none;
-  transition: opacity .4s ease;
-  display: flex; flex-direction: column;
-  overflow: hidden;
-}
-#mx-overlay.open { opacity: 1; pointer-events: all; }
-
-#mx-topbar {
-  display: flex; align-items: center; gap: 14px;
-  padding: 10px 20px;
-  border-bottom: 1px solid rgba(255,107,0,0.25);
-  background: rgba(2,14,6,0.95);
-  flex-shrink: 0;
-  flex-wrap: wrap;
-}
-.back-btn {
-  background: transparent;
-  border: 1px solid var(--no); color: var(--no);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .7rem; letter-spacing: 2px;
-  padding: 5px 14px; cursor: pointer;
-  border-radius: 3px; text-transform: uppercase;
-  transition: all .2s;
-  box-shadow: 0 0 8px rgba(255,107,0,0.3);
-  flex-shrink: 0;
-}
-.back-btn:hover { background: rgba(255,107,0,0.15); box-shadow: 0 0 18px rgba(255,107,0,0.5); }
-.mx-panel-title {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .82rem; color: var(--ng);
-  letter-spacing: 3px; text-transform: uppercase;
-  text-shadow: 0 0 10px var(--ng);
-}
-.mx-overall {
-  margin-left: auto;
-  background: rgba(255,107,0,0.12);
-  border: 1px solid rgba(255,107,0,0.4);
-  border-radius: 3px;
-  padding: 4px 12px;
-  display: flex; align-items: center; gap: 10px;
-}
-.mx-overall-pct {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1.1rem; color: var(--no);
-  text-shadow: 0 0 12px var(--no);
-}
-.mx-overall-lbl {
-  font-size: .62rem; color: rgba(57,255,20,0.5);
-  letter-spacing: 1px; text-transform: uppercase;
-  line-height: 1.3;
-}
-
-/* Filter bar */
-#mx-filters {
-  display: flex; gap: 8px; align-items: center;
-  padding: 8px 20px;
-  border-bottom: 1px solid rgba(57,255,20,0.08);
-  background: rgba(2,12,2,0.8);
-  flex-shrink: 0;
-  flex-wrap: wrap;
-}
-.filter-label {
-  font-size: .6rem; color: rgba(57,255,20,0.4);
-  letter-spacing: 2px; text-transform: uppercase;
-  margin-right: 4px;
-}
-.filter-btn {
-  background: transparent;
-  border: 1px solid rgba(57,255,20,0.2);
-  color: rgba(57,255,20,0.5);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .65rem; letter-spacing: 1px;
-  padding: 3px 10px; cursor: pointer;
-  border-radius: 2px; transition: all .2s;
-  text-transform: uppercase;
-}
-.filter-btn.active, .filter-btn:hover {
-  border-color: var(--ng); color: var(--ng);
-  background: rgba(57,255,20,0.07);
-  box-shadow: 0 0 8px rgba(57,255,20,0.15);
-}
-
-/* Morelos CTA banner */
-#morelos-banner {
-  background: linear-gradient(135deg, rgba(255,107,0,0.15) 0%, rgba(255,107,0,0.05) 100%);
-  border-bottom: 1px solid rgba(255,107,0,0.3);
-  padding: 8px 20px;
-  display: flex; align-items: center; gap: 14px;
-  flex-shrink: 0;
-}
-.banner-star {
-  font-size: 1.3rem;
-  animation: pulse-star 1.8s ease-in-out infinite;
-}
-@keyframes pulse-star {
-  0%,100% { filter: drop-shadow(0 0 4px var(--no)); }
-  50% { filter: drop-shadow(0 0 16px var(--no)) drop-shadow(0 0 32px rgba(255,107,0,0.5)); }
-}
-.banner-text { flex: 1; }
-.banner-title {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .78rem; color: var(--no);
-  text-shadow: 0 0 8px var(--no);
-  letter-spacing: 1px;
-}
-.banner-sub {
-  font-size: .68rem; color: rgba(57,255,20,0.6);
-  margin-top: 1px;
-}
-.banner-pct {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1.6rem; color: var(--no);
-  text-shadow: 0 0 18px var(--no);
-  font-weight: 900;
-}
-
-/* Cards grid */
-#mx-scroll {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 16px 20px 24px;
-}
-#mx-scroll::-webkit-scrollbar { width: 6px; }
-#mx-scroll::-webkit-scrollbar-track { background: rgba(57,255,20,0.03); }
-#mx-scroll::-webkit-scrollbar-thumb { background: rgba(57,255,20,0.2); border-radius: 3px; }
-
-#states-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 12px;
-}
-
-.state-card {
-  background: rgba(3,12,5,0.9);
-  border: 1px solid rgba(57,255,20,0.15);
-  border-left: 3px solid transparent;
-  border-radius: 5px;
-  padding: 13px 15px;
-  cursor: pointer;
-  transition: all .22s ease;
-  position: relative;
-  overflow: hidden;
-}
-.state-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(57,255,20,0.15), transparent);
-}
-.state-card:hover {
-  border-color: rgba(57,255,20,0.4);
-  background: rgba(5,20,8,0.95);
-  box-shadow: 0 0 20px rgba(57,255,20,0.08), inset 0 0 20px rgba(57,255,20,0.02);
-  transform: translateY(-2px);
-}
-.state-card.morelos-card {
-  border-left-color: var(--no) !important;
-  border-color: rgba(255,107,0,0.4);
-  background: rgba(12,6,2,0.95);
-  animation: card-pulse 2.5s ease-in-out infinite;
-}
-@keyframes card-pulse {
-  0%,100% { box-shadow: 0 0 8px rgba(255,107,0,0.2); }
-  50% { box-shadow: 0 0 24px rgba(255,107,0,0.4), 0 0 48px rgba(255,107,0,0.1); }
-}
-.state-card.morelos-card:hover {
-  border-color: var(--no);
-  box-shadow: 0 0 30px rgba(255,107,0,0.35);
-}
-
-.card-header {
-  display: flex; align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-.card-name {
-  font-size: .88rem; font-weight: 700;
-  color: var(--ng); letter-spacing: .5px;
-  line-height: 1.2;
-}
-.morelos-card .card-name {
-  color: var(--no);
-  text-shadow: 0 0 8px rgba(255,107,0,0.5);
-}
-.card-pct {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1.35rem; font-weight: 700;
-  line-height: 1;
-  text-shadow: 0 0 12px currentColor;
-  flex-shrink: 0; margin-left: 8px;
-}
-.card-bar-bg {
-  background: rgba(57,255,20,0.06);
-  border-radius: 2px; height: 3px;
-  margin-bottom: 8px; overflow: hidden;
-}
-.card-bar-fill {
-  height: 100%; border-radius: 2px;
-  transition: width .5s ease;
-}
-.card-desc {
-  font-size: .71rem; color: rgba(57,255,20,0.6);
-  line-height: 1.45; font-weight: 300;
-}
-.morelos-card .card-desc { color: rgba(255,200,100,0.7); }
-.card-tag {
-  display: inline-block;
-  margin-top: 7px;
-  font-size: .58rem;
-  font-family: 'Share Tech Mono', monospace;
-  color: rgba(57,255,20,0.3);
-  border: 1px solid rgba(57,255,20,0.12);
-  padding: 1px 6px; border-radius: 2px;
-  letter-spacing: 1px;
-}
-.morelos-card .card-tag {
-  color: rgba(255,140,0,0.5);
-  border-color: rgba(255,107,0,0.25);
-}
-.card-rank {
-  position: absolute; top: 8px; right: 10px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .6rem; color: rgba(57,255,20,0.2);
-}
-.morelos-card .card-rank { color: rgba(255,107,0,0.5); }
-
-/* Region section titles */
-.region-title {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: .65rem; color: rgba(57,255,20,0.3);
-  letter-spacing: 3px; text-transform: uppercase;
-  padding: 14px 0 6px;
-  border-bottom: 1px solid rgba(57,255,20,0.06);
-  margin-bottom: 8px;
-  grid-column: 1 / -1;
-}
-
-/* Sort / view hint */
-.grid-meta {
-  grid-column: 1 / -1;
-  display: flex; justify-content: flex-end;
-  font-size: .62rem; color: rgba(57,255,20,0.25);
-  font-family: 'Share Tech Mono', monospace;
-  letter-spacing: 1px; margin-bottom: 4px;
-}
-
-footer {
-  position: relative; z-index: 10;
-  text-align: center; padding: 14px;
-  border-top: 1px solid rgba(57,255,20,0.1);
-  font-size: .65rem; color: rgba(57,255,20,0.25);
-  font-family: 'Share Tech Mono', monospace;
-}
-footer span { color: var(--no); text-shadow: 0 0 8px var(--no); }
-</style>
+<title>GRESANOVA — Impacto de la digitalización</title>
+<meta name="description" content="Cuánto vale la economía digital en el mundo y en México, estado por estado. Datos de OCDE, Banco Mundial, Forrester e INEGI.">
+<meta name="theme-color" content="#F1EFEA">
+<link rel="icon" href="img/favicon.ico">
+<link rel="stylesheet" href="css/gresanova.css">
+<meta property="og:title" content="GRESANOVA — Impacto de la digitalización">
+<meta property="og:description" content="Cuánto vale la economía digital en el mundo y en México, estado por estado. Datos de OCDE, Banco Mundial, Forrester e INEGI.">
+<meta property="og:type" content="website">
 </head>
-<body>
-
-<header>
-  <div class="logo-tag">// Digitalización Empresarial &amp; Crecimiento Económico</div>
-  <h1>El Mundo que Digitalizó su Economía</h1>
-  <p class="subtitle">Hover sobre cualquier país · Clic en México para explorar todos los estados</p>
+<body class="claro" data-page="impacto">
+<noscript><style>
+  .rv,.fade-up{opacity:1!important;transform:none!important}
+  .wd-i{opacity:1!important;filter:none!important;transform:none!important}
+  .scale,.hint-drag,#trace,#globe{display:none}
+  .met-bar b{width:100%!important}
+</style></noscript>
+<header class="nav" id="nav">
+  <a href="index.html" class="brand" aria-label="GRESANOVA, inicio">
+    <img src="img/tex/logo.png" alt="" width="31">
+    <span class="brand-tx"><b>GRESANOVA</b><span>Arquitectos de negocios</span></span>
+  </a>
+  <ul class="nav-links"><li><a href="index.html#diagnostico">Diagnóstico</a></li><li><a href="index.html#servicios">Servicios</a></li><li><a href="index.html#sistema">Sistema</a></li><li><a href="equipo.html">Equipo</a></li><li><a href="galeria.html">Galería</a></li><li><a href="impacto.html" aria-current="page">Impacto global</a></li>
+    <li><a href="index.html#contacto" class="nav-cta">Agendar<i>→</i></a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer">
+    <span></span><span></span><span></span>
+  </button>
 </header>
-
-<div class="stats-bar">
-  <div class="stat-item"><div class="stat-num">$16.5T</div><div class="stat-label">Economía Digital 2028</div></div>
-  <div class="stat-item"><div class="stat-num">17%</div><div class="stat-label">Del PIB Mundial</div></div>
-  <div class="stat-item"><div class="stat-num">7.6%</div><div class="stat-label">Crecimiento ICT 2023</div></div>
-  <div class="stat-item"><div class="stat-num">3×</div><div class="stat-label">Más rápido que economía</div></div>
-  <div class="stat-item"><div class="stat-num">60%</div><div class="stat-label">Creció e-commerce 2016–22</div></div>
+<div class="drawer" id="drawer"><a href="index.html#diagnostico">Diagnóstico<i>→</i></a><a href="index.html#servicios">Servicios<i>→</i></a><a href="index.html#sistema">Sistema<i>→</i></a><a href="equipo.html">Equipo<i>→</i></a><a href="galeria.html">Galería<i>→</i></a><a href="impacto.html">Impacto global<i>→</i></a>
+  <a href="index.html#redes">Redes sociales<i>→</i></a>
+  <a href="index.html#contacto" class="d-cta">Agendar diagnóstico<i>→</i></a>
 </div>
-
-<div id="map-wrapper">
-  <canvas id="ocean-canvas"></canvas>
-  <svg id="map-svg"></svg>
-  <div class="legend">
-    <div class="leg-title">Crecimiento Digital</div>
-    <div class="leg-item"><div class="leg-color" style="background:#050f1e;border:1px solid rgba(57,255,20,.2)"></div>&lt;5%</div>
-    <div class="leg-item"><div class="leg-color" style="background:rgba(57,255,20,.12)"></div>5–10%</div>
-    <div class="leg-item"><div class="leg-color" style="background:rgba(57,255,20,.30)"></div>10–15%</div>
-    <div class="leg-item"><div class="leg-color" style="background:rgba(57,255,20,.55)"></div>15–20%</div>
-    <div class="leg-item"><div class="leg-color" style="background:rgba(57,255,20,.85)"></div>+20% líderes</div>
-    <div class="leg-item" style="margin-top:5px"><div class="leg-color" style="background:rgba(255,107,0,.55)"></div>México ▶ clic</div>
+<main>
+<section class="phead band-dark">
+  <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+  <canvas id="haze" aria-hidden="true"></canvas>
+  <div class="beam" aria-hidden="true">
+    <span class="beam-src"></span><b class="beam-wide"></b><b class="beam-mid"></b><b class="beam-core"></b>
   </div>
-</div>
+  <div class="wrap">
+    <span class="pill fade-up"><i></i>Digitalización y crecimiento</span>
+    <h1 data-split>El mundo que digitalizó <em>su economía</em></h1>
+    <p class="fade-up d2">Digitalizarse dejó de ser una ventaja competitiva y pasó a ser el mínimo para seguir compitiendo. Estos son los números, con fuente.</p>
+  </div>
+</section>
 
-<!-- ══ MEXICO FULL-SCREEN PANEL ══ -->
-<div id="mx-overlay">
+<section class="metrics" aria-label="Cifras globales">
+  <div class="wrap"><div class="metrics-in">
+    <div class="met rv"><div class="met-v"><s>$</s><span class="num" data-to="16.5" data-dec="1">0</span><s>T</s></div>
+      <p class="met-l">Economía digital hacia 2028</p></div>
+    <div class="met rv" data-d="1"><div class="met-v"><span class="num" data-to="17">0</span><s>%</s></div>
+      <p class="met-l">Del PIB mundial</p></div>
+    <div class="met rv" data-d="2"><div class="met-v"><span class="num" data-to="7.6" data-dec="1">0</span><s>%</s></div>
+      <p class="met-l">Crecimiento del sector TIC en 2023</p></div>
+    <div class="met rv" data-d="3"><div class="met-v"><span class="num" data-to="3">0</span><s>×</s></div>
+      <p class="met-l">Más rápido que la economía tradicional</p></div>
+  </div></div>
+</section>
 
-  <div id="mx-topbar">
-    <button class="back-btn" id="back-btn">← Volver al Mundo</button>
-    <span class="mx-panel-title">🇲🇽 México — Digitalización por Estado</span>
-    <div class="mx-overall">
-      <span class="mx-overall-pct">+12%</span>
-      <span class="mx-overall-lbl">Promedio<br>nacional</span>
+<section class="sect" id="mundo">
+  <div class="wrap">
+    <div class="head rv">
+      <div><span class="head-tag mono mono-a">01 · El mundo</span>
+        <h2 data-split>Quién va <em>adelante</em></h2></div>
+      <p>Crecimiento de la economía digital como porcentaje del PIB. Los doce países que más rápido avanzan.</p>
+    </div>
+    <div class="two-col">
+      <ul class="barlist rv">
+        <li>
+          <div class="bl-t"><span>China</span><span class="bl-v">+31%</span></div>
+          <div class="bl-r"><b data-fill="100"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Estados Unidos</span><span class="bl-v">+28%</span></div>
+          <div class="bl-r"><b data-fill="90"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Singapur</span><span class="bl-v">+26%</span></div>
+          <div class="bl-r"><b data-fill="84"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Israel</span><span class="bl-v">+25%</span></div>
+          <div class="bl-r"><b data-fill="81"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Corea del Sur</span><span class="bl-v">+24%</span></div>
+          <div class="bl-r"><b data-fill="77"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Suecia</span><span class="bl-v">+23%</span></div>
+          <div class="bl-r"><b data-fill="74"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Reino Unido</span><span class="bl-v">+22%</span></div>
+          <div class="bl-r"><b data-fill="71"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Emiratos Árabes</span><span class="bl-v">+22%</span></div>
+          <div class="bl-r"><b data-fill="71"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Países Bajos</span><span class="bl-v">+21%</span></div>
+          <div class="bl-r"><b data-fill="68"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Dinamarca</span><span class="bl-v">+21%</span></div>
+          <div class="bl-r"><b data-fill="68"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Canadá</span><span class="bl-v">+20%</span></div>
+          <div class="bl-r"><b data-fill="65"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Noruega</span><span class="bl-v">+20%</span></div>
+          <div class="bl-r"><b data-fill="65"></b></div>
+        </li>
+      </ul>
+      <div class="grid-panels gp-1 rv" data-d="1" style="align-self:start">
+      <article class="card rv">
+        <div class="card-top"><span class="mono">01</span><span class="mono mono-a">+31%</span></div>
+        <h3>China</h3>
+        <p>39% del retail es digital. Mayor mercado e-commerce del planeta. Inversión masiva en IA, 5G y manufactura 4.0.</p>
+        <ul><li>Forrester 2024 · UNCTAD</li></ul>
+      </article>
+      <article class="card rv" data-d="1">
+        <div class="card-top"><span class="mono">02</span><span class="mono mono-a">+28%</span></div>
+        <h3>Estados Unidos</h3>
+        <p>42% del gasto tecnológico mundial. ICT creció 3× más rápido que la economía. E-commerce y fintech lideran el crecimiento digital global.</p>
+        <ul><li>Forrester 2024 · OECD</li></ul>
+      </article>
+      <article class="card rv" data-d="2">
+        <div class="card-top"><span class="mono">03</span><span class="mono mono-a">+26%</span></div>
+        <h3>Singapur</h3>
+        <p>Hub digital Asia-Pacífico. Smart Nation: 100% conectividad. Centros de datos y IA son pilares del PIB.</p>
+        <ul><li>UNCTAD 2024</li></ul>
+      </article>
+      </div>
     </div>
   </div>
+</section>
 
-  <div id="morelos-banner">
-    <span class="banner-star">⭐</span>
-    <div class="banner-text">
-      <div class="banner-title">MORELOS — OPORTUNIDAD ESTRATÉGICA CLAVE</div>
-      <div class="banner-sub">Solo 28% de PyMEs digitalizadas · Potencial: +15,000 empleos · +$2,800 MDP al PIB estatal anual</div>
+<section class="sect band-dark" id="mexico">
+  <div class="wrap">
+    <div class="head rv">
+      <div><span class="head-tag mono mono-a">02 · México</span>
+        <h2 data-split>Estado por estado, <em>quién digitaliza</em></h2></div>
+      <p>El promedio nacional es de +12%. La distancia entre el primer estado y el último es de más del triple.</p>
     </div>
-    <span class="banner-pct">+8%</span>
+    <ul class="barlist two rv">
+        <li>
+          <div class="bl-t"><span>Ciudad de México</span><span class="bl-v">+24%</span></div>
+          <div class="bl-r"><b data-fill="100"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Jalisco</span><span class="bl-v">+20%</span></div>
+          <div class="bl-r"><b data-fill="83"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Nuevo León</span><span class="bl-v">+19%</span></div>
+          <div class="bl-r"><b data-fill="79"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Querétaro</span><span class="bl-v">+17%</span></div>
+          <div class="bl-r"><b data-fill="71"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Baja California</span><span class="bl-v">+16%</span></div>
+          <div class="bl-r"><b data-fill="67"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Chihuahua</span><span class="bl-v">+15%</span></div>
+          <div class="bl-r"><b data-fill="62"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Guanajuato</span><span class="bl-v">+14%</span></div>
+          <div class="bl-r"><b data-fill="58"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Sonora</span><span class="bl-v">+14%</span></div>
+          <div class="bl-r"><b data-fill="58"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Quintana Roo</span><span class="bl-v">+14%</span></div>
+          <div class="bl-r"><b data-fill="58"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Aguascalientes</span><span class="bl-v">+14%</span></div>
+          <div class="bl-r"><b data-fill="58"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Coahuila</span><span class="bl-v">+13%</span></div>
+          <div class="bl-r"><b data-fill="54"></b></div>
+        </li>
+        <li>
+          <div class="bl-t"><span>Estado de México</span><span class="bl-v">+13%</span></div>
+          <div class="bl-r"><b data-fill="54"></b></div>
+        </li>
+    </ul>
   </div>
+</section>
 
-  <div id="mx-filters">
-    <span class="filter-label">Ordenar:</span>
-    <button class="filter-btn active" id="f-mayor">Mayor crecimiento</button>
-    <button class="filter-btn" id="f-menor">Menor crecimiento</button>
-    <button class="filter-btn" id="f-az">A → Z</button>
-    <span class="filter-label" style="margin-left:16px">Ver:</span>
-    <button class="filter-btn active" id="f-todos">Todos</button>
-    <button class="filter-btn" id="f-norte">Norte</button>
-    <button class="filter-btn" id="f-centro">Centro</button>
-    <button class="filter-btn" id="f-sur">Sur &amp; SE</button>
+<section class="sect" id="morelos" style="background:var(--bg-2)">
+  <div class="wrap">
+    <div class="guar-in rv" style="text-align:left;max-width:none">
+      <span class="mono mono-a">Oportunidad clave</span>
+      <h2 data-split style="margin-top:14px">Morelos: <em>la oportunidad que tenemos enfrente</em></h2>
+      <p style="margin:0 0 26px;max-width:64ch">Solo 28% de las PyMEs tienen presencia digital activa. La digitalización puede generar más de 15,000 empleos y aumentar el PIB estatal en $2,800 millones de pesos anuales. Cuernavaca tiene potencial como hub tecnológico regional del centro del país.</p>
+      <div class="ctx-stats" style="margin-top:0">
+        <div class="ctx-s"><b>28 %</b><span>De PyMEs con presencia digital activa</span></div>
+        <div class="ctx-s"><b>+15 mil</b><span>Empleos potenciales</span></div>
+        <div class="ctx-s"><b>$2,800 M</b><span>Pesos anuales al PIB estatal</span></div>
+        <div class="ctx-s"><b>+8 %</b><span>Crecimiento digital actual</span></div>
+      </div>
+      <p class="mono" style="margin-top:22px">Fuente: INEGI 2023 · SE Morelos</p>
+      <div style="display:flex;gap:14px;margin-top:30px;flex-wrap:wrap">
+        <a href="index.html#contacto" class="btn btn-1"><span>Digitalizar mi empresa</span><i>→</i></a>
+        <a href="index.html#servicios" class="btn btn-2">Ver cómo lo hacemos<i>→</i></a>
+      </div>
+    </div>
+    <p class="mono wrap" style="margin-top:34px;padding:0">Fuentes generales: OECD Digital Economy Outlook 2024 · World Bank 2023 · Forrester 2023–2028 · INEGI · IDC Research</p>
   </div>
-
-  <div id="mx-scroll">
-    <div id="states-grid"></div>
+</section>
+</main>
+<footer class="band-dark">
+  <div class="wrap f-in">
+    <div class="f-mark">
+      <b>GRESANOVA</b>
+      <span class="mono">Conectar · Actualizar · Desarrollar</span>
+      <div style="margin-top:20px"><div class="soc-row"><a href="https://instagram.com/gresanova" target="_blank" rel="noopener" aria-label="Instagram"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.63.07 4.81s-.01 3.56-.07 4.81c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.63.07-4.85.07s-3.6-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23C2.16 15.56 2.15 15.18 2.15 12s.01-3.56.07-4.81c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 1.8c-3.14 0-3.5.01-4.74.07-.9.04-1.38.19-1.71.31-.43.17-.73.37-1.05.69-.32.32-.52.62-.69 1.05-.12.33-.27.81-.31 1.71C3.44 9.07 3.43 9.43 3.43 12s.01 2.93.07 4.17c.4.9.19 1.38.31 1.71.17.43.37.73.69 1.05.32.32.62.52 1.05.69.33.12.81.27 1.71.31 1.24.06 1.6.07 4.74.07s3.5-.01 4.74-.07c.9-.04 1.38-.19 1.71-.31.43-.17.73-.37 1.05-.69.32-.32.52-.62.69-1.05.12-.33.27-.81.31-1.71.06-1.24.07-1.6.07-4.17s-.01-2.93-.07-4.17c-.04-.9-.19-1.38-.31-1.71a2.83 2.83 0 0 0-.69-1.05 2.83 2.83 0 0 0-1.05-.69c-.33-.12-.81-.27-1.71-.31C15.5 4.01 15.14 4 12 4Zm0 3.03a4.97 4.97 0 1 1 0 9.94 4.97 4.97 0 0 1 0-9.94Zm0 1.8a3.17 3.17 0 1 0 0 6.34 3.17 3.17 0 0 0 0-6.34Zm5.17-3.2a1.16 1.16 0 1 1 0 2.32 1.16 1.16 0 0 1 0-2.32Z"/></svg></a><a href="https://facebook.com/gresanova" target="_blank" rel="noopener" aria-label="Facebook"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.5-3.91 3.77-3.91 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.45 2.91h-2.33V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a><a href="https://wa.me/527775417367" aria-label="WhatsApp"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.08-.12-.28-.2-.58-.34m-5.42 7.4a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26C2.16 6.44 6.6 2 12.05 2c2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.43 9.89-9.88 9.89m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.48-8.41Z"/></svg></a><a href="https://tiktok.com/@gresanova" target="_blank" rel="noopener" aria-label="TikTok"><svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82a4.28 4.28 0 0 1-1.9-3.32V2h-3.2v13.1a2.6 2.6 0 0 1-2.6 2.5 2.6 2.6 0 0 1-2.6-2.6 2.6 2.6 0 0 1 3.2-2.53V9.2a5.8 5.8 0 0 0-.6-.04A5.83 5.83 0 0 0 3.07 15a5.83 5.83 0 0 0 5.83 5.83A5.83 5.83 0 0 0 14.73 15V8.5a7.44 7.44 0 0 0 4.35 1.4V6.7a4.3 4.3 0 0 1-2.48-.88Z"/></svg></a></div></div>
+    </div>
+    <nav class="f-nav" aria-label="Pie"><a href="index.html#diagnostico">Diagnóstico</a><a href="index.html#servicios">Servicios</a><a href="index.html#sistema">Sistema</a><a href="equipo.html">Equipo</a><a href="galeria.html">Galería</a><a href="impacto.html">Impacto global</a><a href="index.html#redes">Redes</a><a href="https://wa.me/527775417367">WhatsApp</a></nav>
+    <div class="f-meta">
+      <span class="mono">© 2026 Gresanova</span><br>
+      <span class="mono">Cuernavaca, Morelos, México</span><br>
+      <span class="mono" style="margin-top:8px;display:inline-block">+52 777 541 7367</span>
+    </div>
   </div>
-</div>
-
-<div id="tooltip">
-  <div class="tip-in">
-    <div class="tip-name" id="tn">—</div>
-    <div class="tip-grow"><div class="grow-num" id="tp">+0%</div><div class="grow-lbl">Crecimiento<br>Digitalización</div></div>
-    <div class="tip-bar-bg"><div class="tip-bar-fill" id="tb" style="width:0%"></div></div>
-    <div class="tip-desc" id="td"></div>
-    <div class="tip-src" id="ts"></div>
-  </div>
-</div>
-
-<footer>
-  Fuentes: OECD Digital Economy Outlook 2024 · World Bank 2023 · Forrester 2023–2028 · INEGI · IDC Research
-  &nbsp;|&nbsp;<span>★ Digitaliza Morelos → Crece México</span>
 </footer>
 
-<script>
-// ══════════════════════════════════════════
-// COUNTRY DATA
-// ══════════════════════════════════════════
-const CD = {
-  "USA":{name:"Estados Unidos",pct:"+28%",val:28,desc:"42% del gasto tecnológico mundial. ICT creció 3× más rápido que la economía. E-commerce y fintech lideran el crecimiento digital global.",src:"Forrester 2024 · OECD"},
-  "CHN":{name:"China",pct:"+31%",val:31,desc:"39% del retail es digital. Mayor mercado e-commerce del planeta. Inversión masiva en IA, 5G y manufactura 4.0.",src:"Forrester 2024 · UNCTAD"},
-  "GBR":{name:"Reino Unido",pct:"+22%",val:22,desc:"ICT creció +10% en 2023 (top 5 OCDE). Fintech londinense entre las más importantes del mundo.",src:"OECD Digital Outlook 2024"},
-  "DEU":{name:"Alemania",pct:"+18%",val:18,desc:"Industria 4.0 como política nacional. ICT superó +10% en 2023. Manufactura inteligente eleva productividad 22%.",src:"OECD Digital Outlook 2024"},
-  "JPN":{name:"Japón",pct:"+16%",val:16,desc:"Robótica e IoT integrados a la cadena de valor. Digitalización de gobierno reduce costos 18%.",src:"Forrester · World Bank 2023"},
-  "KOR":{name:"Corea del Sur",pct:"+24%",val:24,desc:"Mayor inversión en I+D como % del PIB de la OCDE. Líder en semiconductores, 5G e IA. Digitalización = 24% del PIB.",src:"OECD Digital Outlook 2024"},
-  "IND":{name:"India",pct:"+19%",val:19,desc:"Exportaciones ICT son el principal motor digital. E-commerce creció 68% post-pandemia.",src:"World Bank 2023 · Forrester"},
-  "BRA":{name:"Brasil",pct:"+14%",val:14,desc:"Mayor mercado digital de LATAM. Pix lo usan +140M personas. E-commerce crece 27% anual.",src:"OECD · World Bank 2023"},
-  "CAN":{name:"Canadá",pct:"+20%",val:20,desc:"IA y cloud computing en auge. Digitalización de PyMEs subió 35% desde 2020.",src:"Forrester 2024 · OECD"},
-  "FRA":{name:"Francia",pct:"+17%",val:17,desc:"Gasto tech supera €83B anuales. E-commerce y turismo digital destacan.",src:"OECD Digital Outlook 2024"},
-  "AUS":{name:"Australia",pct:"+15%",val:15,desc:"Economía de servicios altamente digitalizada. Digitalización reduce costos en salud y educación.",src:"OECD 2024 · IDC"},
-  "SGP":{name:"Singapur",pct:"+26%",val:26,desc:"Hub digital Asia-Pacífico. Smart Nation: 100% conectividad. Centros de datos y IA son pilares del PIB.",src:"UNCTAD 2024"},
-  "NLD":{name:"Países Bajos",pct:"+21%",val:21,desc:"ICT creció +10% en 2023. Principal hub de internet de Europa.",src:"OECD Digital Outlook 2024"},
-  "BEL":{name:"Bélgica",pct:"+19%",val:19,desc:"ICT creció +10% en 2023. E-government avanzado reduce burocracia.",src:"OECD Digital Outlook 2024"},
-  "AUT":{name:"Austria",pct:"+18%",val:18,desc:"Manufactura con alta automatización. Digitalización de PyMEs con fuerte apoyo estatal.",src:"OECD Digital Outlook 2024"},
-  "SWE":{name:"Suecia",pct:"+23%",val:23,desc:"Ecosistema de unicorns (Spotify, Klarna). Gobierno 100% digital.",src:"OECD · World Bank 2023"},
-  "NOR":{name:"Noruega",pct:"+20%",val:20,desc:"Sector público muy digitalizado. Identidad digital universal.",src:"OECD 2024"},
-  "DNK":{name:"Dinamarca",pct:"+21%",val:21,desc:"Máxima puntuación en índice digitalización UE. Alta adopción cloud en PyMEs.",src:"OECD Digital Outlook 2024"},
-  "FIN":{name:"Finlandia",pct:"+20%",val:20,desc:"Educación digital referente mundial. PIB digital = 20% del total.",src:"OECD 2024"},
-  "ESP":{name:"España",pct:"+15%",val:15,desc:"Turismo digital y fintech impulsan economía. Agenda Digital 2026 en ejecución.",src:"OECD · Forrester 2024"},
-  "ITA":{name:"Italia",pct:"+13%",val:13,desc:"E-commerce creció 40% en 5 años. Plan de Recuperación: €49B para digitalización.",src:"OECD · Forrester 2024"},
-  "MEX":{name:"México",pct:"+12%",val:12,desc:"Haz clic para explorar los 32 estados. Digitalización podría agregar $150B al PIB. Solo 36% de PyMEs digitalizada.",src:"McKinsey · OCDE · INEGI 2023"},
-  "ARG":{name:"Argentina",pct:"+11%",val:11,desc:"Exportaciones software +20% anual. Talento digital demandado globalmente.",src:"World Bank 2023"},
-  "COL":{name:"Colombia",pct:"+13%",val:13,desc:"Economía digital crece 3× más rápido que el PIB. Fintech en expansión.",src:"World Bank · OCDE 2023"},
-  "CHL":{name:"Chile",pct:"+14%",val:14,desc:"El más avanzado digitalmente de Sudamérica. Fintech y exportaciones digitales crecen 25% anual.",src:"OCDE · World Bank 2023"},
-  "PER":{name:"Perú",pct:"+10%",val:10,desc:"E-commerce creció 170% entre 2019–2023. Banca digital alcanza 60% de adultos.",src:"World Bank 2023"},
-  "ZAF":{name:"Sudáfrica",pct:"+9%",val:9,desc:"Hub tecnológico africano emergente. Fintech lidera inclusión financiera.",src:"World Bank · IDC 2023"},
-  "NGA":{name:"Nigeria",pct:"+8%",val:8,desc:"Fintech africana más grande. E-commerce en crecimiento explosivo.",src:"World Bank 2023"},
-  "KEN":{name:"Kenia",pct:"+12%",val:12,desc:"M-Pesa: referente mundial de dinero móvil. 70% de transacciones son digitales.",src:"World Bank · UNCTAD 2023"},
-  "EGY":{name:"Egipto",pct:"+10%",val:10,desc:"Digitalización del gobierno acelera. E-commerce crece 25% anual.",src:"World Bank 2023"},
-  "IDN":{name:"Indonesia",pct:"+18%",val:18,desc:"Economía digital más grande del Sudeste Asiático. $77B en economía digital (2022).",src:"Google-Temasek-Bain 2023"},
-  "MYS":{name:"Malasia",pct:"+16%",val:16,desc:"MyDIGITAL: 22.6% del PIB digital para 2025. Hub regional de semiconductores.",src:"World Bank · IDC 2023"},
-  "THA":{name:"Tailandia",pct:"+14%",val:14,desc:"Thailand 4.0. Turismo y e-commerce motores principales.",src:"World Bank 2023"},
-  "VNM":{name:"Vietnam",pct:"+15%",val:15,desc:"Exportaciones tech superaron $110B. Economía digital crece 28% anual.",src:"Google-Temasek-Bain 2023"},
-  "ISR":{name:"Israel",pct:"+25%",val:25,desc:"Startup Nation: mayor densidad de startups tech. Sector tech = 18% del PIB.",src:"OECD · World Bank 2023"},
-  "ARE":{name:"Emiratos Árabes",pct:"+22%",val:22,desc:"Economía 100% digital meta 2031. IA integrada en gobierno.",src:"IDC · World Bank 2023"},
-  "SAU":{name:"Arabia Saudita",pct:"+18%",val:18,desc:"Vision 2030 impulsa digitalización. E-commerce creció 60% en 3 años.",src:"IDC 2023"},
-  "TUR":{name:"Turquía",pct:"+16%",val:16,desc:"Economía digital crece 35% anual. E-commerce y fintech en auge.",src:"OECD · World Bank 2023"},
-  "POL":{name:"Polonia",pct:"+17%",val:17,desc:"Hub digital de Europa del Este. Outsourcing IT de clase mundial.",src:"OECD Digital Outlook 2024"},
-  "RUS":{name:"Rusia",pct:"+11%",val:11,desc:"Sector tech en desarrollo. Yandex como ecosistema digital completo.",src:"IDC · World Bank 2023"},
-  "PHL":{name:"Filipinas",pct:"+14%",val:14,desc:"BPO digital = 9% del PIB. E-commerce creció 93% en 2021–2023.",src:"Google-Temasek-Bain 2023"},
-};
-
-// ══════════════════════════════════════════
-// MEXICO STATES DATA
-// ══════════════════════════════════════════
-const STATES = [
-  // region, name, pct, val, icon, desc, src, tag
-  ["Centro","Ciudad de México",24,"🏙️","Motor digital de México. +420 startups activas. PIB digital = 22% del total. Hub de fintechs para toda Latinoamérica.","INEGI 2023 · CIDE","FINTECH · IA · STARTUPS"],
-  ["Norte","Jalisco",20,"⚡","Silicon Valley Mexicano. +700 empresas tech en ZMG. Dell, IBM e Intel con oficinas regionales. Exportaciones software +18% anual.","SEFOE Jalisco 2023","TECH · SOFTWARE"],
-  ["Norte","Nuevo León",19,"🏭","Hub industrial 4.0. Mayor adopción de automatización del país. Monterrey Tech y UANL forman talento digital de clase mundial.","CAINTRA · INEGI 2023","INDUSTRIA 4.0"],
-  ["Centro","Querétaro",17,"✈️","Aeroespacial + manufactura avanzada digital. Hub logístico del Bajío. Líder en crecimiento de startups tech del interior del país.","INEGI · ProMéxico 2023","AEROESPACIAL"],
-  ["Norte","Baja California",16,"🔌","Maquiladora 4.0 con IoT y automatización. Ecosistema binacional con San Diego. Exportaciones tech en alza sostenida.","Index BC · INEGI 2023","MAQUILADORA 4.0"],
-  ["Norte","Chihuahua",15,"🛩️","Manufactura aeroespacial y automotriz digitalizada. Honeywell y Foxconn con plantas 4.0. Trazabilidad digital completa.","INEGI 2023","AEROESPACIAL"],
-  ["Centro","Guanajuato",14,"🚗","Cluster automotriz más digitalizado. Toyota, GM y VW con fábricas inteligentes. León lidera e-commerce de calzado.","INEGI · Cluster Auto 2023","AUTO 4.0"],
-  ["Norte","Sonora",14,"🌵","Agroindustria digitalizada. Blockchain en exportaciones. IoT en minería reduce costos 20%.","INEGI 2023 · SE","AGRO DIGITAL"],
-  ["Sur y SE","Quintana Roo",14,"🌴","Turismo digital líder en México. Cancún y Tulum con plataformas avanzadas. E-commerce hotelero genera miles de empleos.","INEGI · SEDETUR 2023","TURISMO DIGITAL"],
-  ["Norte","Aguascalientes",14,"⚙️","Industria automotriz 4.0 muy eficiente. Nissan con planta inteligente. Alta adopción digital en PyMEs.","INEGI 2023","AUTO 4.0"],
-  ["Norte","Coahuila",13,"🔩","Manufactura automotriz 4.0. Saltillo: hub industrial digital del norte.",  "INEGI 2023","INDUSTRIAL"],
-  ["Centro","Estado de México",13,"📦","PyMEs integradas a cadenas digitales. E-commerce manufacturero en crecimiento. Cercanía con CDMX facilita adopción.","INEGI 2023","MANUFACTURA"],
-  ["Sur y SE","Yucatán",13,"🏛️","Mérida: ciudad inteligente. E-commerce artesanal en expansión constante. Turismo digital en crecimiento.","INEGI · SEDETUR 2023","CIUDAD SMART"],
-  ["Norte","Tamaulipas",12,"🚢","Corredor industrial 4.0. E-commerce crossborder con EE.UU. en crecimiento acelerado.","INEGI 2023","CROSSBORDER"],
-  ["Centro","San Luis Potosí",12,"🏎️","Manufactura automotriz y logística digitalizada. GM y BMW con procesos 4.0.","INEGI 2023","AUTO 4.0"],
-  ["Centro","Puebla",11,"🏗️","AUDI digital factory referente en México. Manufactura 4.0 creciente.","INEGI 2023","MANUFACTURA"],
-  ["Norte","Baja California Sur",11,"🎣","Turismo de alto valor con plataformas avanzadas. Los Cabos lidera reservas online. Pesca con trazabilidad digital.","INEGI 2023","TURISMO"],
-  ["Centro","Tlaxcala",10,"🧵","Industria textil en transición digital. Gran potencial en e-commerce. Cercanía con CDMX y Puebla facilita adopción.","INEGI 2023","E-COMMERCE"],
-  ["Norte","Sinaloa",10,"🥑","Agroindustria exportadora con plataformas digitales. E-commerce alimentario creciendo.","INEGI 2023","AGRO DIGITAL"],
-  ["Centro","Veracruz",9,"⚓","Puerto digitalizado con trazabilidad en tiempo real. Agroindustria con plataformas de comercio. Potencial enorme.","INEGI 2023","LOGÍSTICA"],
-  ["Centro","Hidalgo",9,"🏔️","Cercanía con CDMX impulsa adopción digital. Manufactura en transición 4.0.","INEGI 2023","MANUFACTURA"],
-  ["Norte","Colima",9,"🚢","Puerto de Manzanillo con digitalización creciente. PyMEs en adopción tecnológica.","INEGI 2023","LOGÍSTICA"],
-  ["Centro","Michoacán",9,"🥑","Aguacate 4.0 en desarrollo. E-commerce artesanal en crecimiento sostenido.","INEGI 2023","AGRO DIGITAL"],
-  ["Norte","Durango",9,"🌲","Industria maderera con digitalización de procesos. Potencial en turismo de aventura digital.","INEGI 2023","INDUSTRIA"],
-  ["Sur y SE","Tabasco",8,"🛢️","Sector petrolero adoptando tecnología digital. Hub logístico fluvial en digitalización.","INEGI 2023","ENERGÍA"],
-  ["Norte","Nayarit",8,"🏄","Turismo digital en Riviera Nayarit. Agroindustria con plataformas de exportación. Gran potencial.","INEGI 2023","TURISMO"],
-  ["Sur y SE","Campeche",8,"🛢️","Petróleo y pesca con digitalización incipiente. Turismo arqueológico online creciendo.","INEGI 2023","ENERGÍA"],
-  ["Sur y SE","Zacatecas",7,"⛏️","Minería con sensores IoT. Agro con riego inteligente. Gran oportunidad en digitalización del sector primario.","INEGI 2023","MINERÍA"],
-  ["Sur y SE","Oaxaca",7,"🎨","Artesanías en e-commerce crecen 40% anual. Turismo digital emergente. Enorme oportunidad en inclusión digital.","INEGI · SE 2023","E-COMMERCE"],
-  ["Sur y SE","Guerrero",7,"🏖️","Turismo digital en Acapulco en recuperación. Artesanías en plataformas online creciendo.","INEGI 2023","TURISMO"],
-  ["Sur y SE","Chiapas",6,"☕","Mayor rezago digital pero potencial enorme. Café y artesanías en e-commerce crecen 35%. La digitalización es la palanca más poderosa.","INEGI 2023","OPORTUNIDAD"],
-];
-
-// Morelos (featured separately)
-const MORELOS = {
-  region:"Centro", name:"Morelos", val:8, icon:"⭐",
-  desc:"Solo 28% de PyMEs tienen presencia digital activa. La digitalización puede generar +15,000 empleos y aumentar el PIB estatal en $2,800 MDP anuales. Cuernavaca tiene potencial como hub tech regional del centro del país.",
-  src:"INEGI 2023 · SE Morelos", tag:"OPORTUNIDAD CLAVE"
-};
-
-// ISO numeric to alpha-3
-const ISO = {840:"USA",276:"DEU",156:"CHN",826:"GBR",392:"JPN",410:"KOR",356:"IND",76:"BRA",124:"CAN",250:"FRA",36:"AUS",702:"SGP",528:"NLD",56:"BEL",40:"AUT",752:"SWE",578:"NOR",208:"DNK",246:"FIN",724:"ESP",380:"ITA",484:"MEX",32:"ARG",170:"COL",152:"CHL",604:"PER",710:"ZAF",566:"NGA",404:"KEN",818:"EGY",360:"IDN",458:"MYS",764:"THA",704:"VNM",376:"ISR",784:"ARE",682:"SAU",792:"TUR",616:"POL",643:"RUS",608:"PHL"};
-
-function ccol(v){if(!v)return"#050f1e";if(v>=25)return"rgba(57,255,20,.82)";if(v>=20)return"rgba(57,255,20,.58)";if(v>=15)return"rgba(57,255,20,.38)";if(v>=10)return"rgba(57,255,20,.20)";return"rgba(57,255,20,.10)";}
-
-function pctColor(v){
-  if(v>=20)return"#39FF14";
-  if(v>=15)return"#8aff14";
-  if(v>=12)return"#ccff14";
-  if(v>=9)return"#ff9500";
-  return"#ff6b00";
-}
-function barGrad(v){
-  if(v>=15)return"linear-gradient(90deg,#39FF14,#aaff00)";
-  if(v>=10)return"linear-gradient(90deg,#aaff00,#ccff14)";
-  return"linear-gradient(90deg,#FF6B00,#ff9500)";
-}
-
-// ══════════════════════════════════════════
-// TOOLTIP
-// ══════════════════════════════════════════
-const TT=document.getElementById("tooltip"),TN=document.getElementById("tn"),TP=document.getElementById("tp"),TD=document.getElementById("td"),TB=document.getElementById("tb"),TS=document.getElementById("ts");
-function showT(e,name,pct,val,desc,src){TN.textContent=name;TP.textContent=pct;TD.textContent=desc;TS.textContent="📊 "+src;TB.style.width=Math.min(val,35)/35*100+"%";TT.classList.add("vis");mvT(e);}
-function mvT(e){const tw=320;let x=e.clientX+18,y=e.clientY-60;if(x+tw>window.innerWidth)x=e.clientX-tw-18;if(y<8)y=8;if(y+220>window.innerHeight)y=window.innerHeight-225;TT.style.left=x+"px";TT.style.top=y+"px";}
-function hideT(){TT.classList.remove("vis");}
-
-// ══════════════════════════════════════════
-// OCEAN ANIMATION
-// ══════════════════════════════════════════
-function initOcean(cid){
-  const canvas=document.getElementById(cid);if(!canvas)return;
-  const ctx=canvas.getContext("2d");
-  const wrap=canvas.parentElement;
-  function rsz(){canvas.width=wrap.offsetWidth||window.innerWidth;canvas.height=wrap.offsetHeight||600;}
-  rsz();new ResizeObserver(rsz).observe(wrap);
-  const currents=[
-    {ax:.08,ay:.28,dx:1,dy:0,amp:.025,freq:2.5,col:[0,120,200]},
-    {ax:.30,ay:.22,dx:.9,dy:-.05,amp:.02,freq:3,col:[0,140,220]},
-    {ax:.55,ay:.25,dx:1,dy:.02,amp:.02,freq:2.8,col:[0,100,180]},
-    {ax:.72,ay:.20,dx:.8,dy:.03,amp:.03,freq:2.2,col:[0,110,190]},
-    {ax:.15,ay:.58,dx:-.7,dy:.08,amp:.03,freq:2,col:[0,90,160]},
-    {ax:.5,ay:.82,dx:-1,dy:0,amp:.015,freq:4,col:[20,80,150]},
-    {ax:.62,ay:.50,dx:.8,dy:-.05,amp:.025,freq:2.5,col:[0,130,210]},
-    {ax:.85,ay:.30,dx:-.1,dy:.9,amp:.015,freq:3.5,col:[0,100,170]},
-    {ax:.5,ay:.44,dx:-1,dy:0,amp:.01,freq:5,col:[0,150,230]},
-  ];
-  const pts=[];
-  for(let i=0;i<200;i++){const c=currents[i%currents.length];pts.push({c,t:Math.random()*Math.PI*2,spd:.003+Math.random()*.005,sz:.6+Math.random()*1.4,al:.07+Math.random()*.2,prog:Math.random()});}
-  let fr=0;
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);fr++;
-    for(const p of pts){
-      p.prog+=p.spd*.012;if(p.prog>1)p.prog=0;p.t+=p.spd;
-      const c=p.c,W=canvas.width,H=canvas.height;
-      const bx=((c.ax+p.prog*c.dx+100)%1)*W;
-      const by=(c.ay+c.amp*Math.sin(p.t*c.freq))*H;
-      const wave=Math.sin(p.t*1.7+p.prog*8)*4;
-      const x=bx,y=by+wave;
-      const[r,g,b]=c.col;
-      const grd=ctx.createRadialGradient(x,y,0,x,y,p.sz*3.5);
-      grd.addColorStop(0,`rgba(${r},${g},${b},${p.al})`);grd.addColorStop(1,`rgba(${r},${g},${b},0)`);
-      ctx.beginPath();ctx.arc(x,y,p.sz*3.5,0,Math.PI*2);ctx.fillStyle=grd;ctx.fill();
-      ctx.beginPath();ctx.arc(x,y,p.sz*.7,0,Math.PI*2);ctx.fillStyle=`rgba(${r+80},${g+40},${b+20},${p.al*1.5})`;ctx.fill();
-    }
-    const sh=ctx.createLinearGradient(0,0,canvas.width,canvas.height);
-    const t2=(Math.sin(fr*.005)*.5+.5)*.025;
-    sh.addColorStop(0,`rgba(0,60,120,${t2})`);sh.addColorStop(.5,`rgba(0,100,180,${t2*.5})`);sh.addColorStop(1,`rgba(0,40,100,${t2})`);
-    ctx.fillStyle=sh;ctx.fillRect(0,0,canvas.width,canvas.height);
-    requestAnimationFrame(draw);
-  }
-  draw();
-}
-initOcean("ocean-canvas");
-
-// ══════════════════════════════════════════
-// WORLD MAP
-// ══════════════════════════════════════════
-const WSVG=d3.select("#map-svg");
-const W=1400,H=680;
-WSVG.attr("viewBox",`0 0 ${W} ${H}`);
-WSVG.append("rect").attr("width",W).attr("height",H).attr("fill","#020d1a");
-const defs=WSVG.append("defs");
-const og=defs.append("radialGradient").attr("id","og").attr("cx","50%").attr("cy","50%").attr("r","70%");
-og.append("stop").attr("offset","0%").attr("stop-color","#041e38").attr("stop-opacity",".9");
-og.append("stop").attr("offset","100%").attr("stop-color","#010810").attr("stop-opacity","1");
-WSVG.append("rect").attr("width",W).attr("height",H).attr("fill","url(#og)");
-const proj=d3.geoNaturalEarth1().scale(222).translate([W/2,H/2+28]);
-const pg=d3.geoPath().projection(proj);
-WSVG.append("path").datum(d3.geoGraticule()()).attr("d",pg).attr("fill","none").attr("stroke","rgba(0,80,160,.1)").attr("stroke-width",".4");
-
-d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(world=>{
-  const feats=topojson.feature(world,world.objects.countries).features;
-  const g=WSVG.append("g");
-  g.selectAll(".country")
-    .data(feats.filter(d=>ISO[+d.id]!=="MEX"))
-    .enter().append("path").attr("class","country").attr("d",pg)
-    .attr("fill",d=>{const dat=CD[ISO[+d.id]];return dat?ccol(dat.val):"#050f1e";})
-    .on("mousemove",function(ev,d){const dat=CD[ISO[+d.id]];if(dat)showT(ev,dat.name,dat.pct,dat.val,dat.desc,dat.src);else showT(ev,"País en digitalización","~7%",7,"Este país también avanza en su transformación digital.","UNCTAD 2024");})
-    .on("mouseleave",hideT);
-  const mxF=feats.find(d=>ISO[+d.id]==="MEX");
-  if(mxF){
-    g.append("path").datum(mxF).attr("class","mx-country").attr("d",pg).attr("fill","rgba(255,107,0,.18)")
-      .on("mousemove",ev=>showT(ev,"🇲🇽 México — clic para ver 32 estados","+12%",12,"Digitalización puede agregar $150B al PIB. Solo 36% de PyMEs digitalizada. ¡Haz clic!","McKinsey · OCDE · INEGI 2023"))
-      .on("mouseleave",hideT).on("click",()=>{hideT();openMX();});
-    const mc=pg.centroid(mxF);
-    if(mc&&!isNaN(mc[0])){
-      g.append("text").attr("x",mc[0]).attr("y",mc[1]-4).attr("class","mx-hint").text("🇲🇽 México");
-      g.append("text").attr("x",mc[0]).attr("y",mc[1]+9).attr("class","mx-hint").attr("font-size","7px").attr("fill","rgba(255,200,80,.5)").text("▶ clic para estados");
-    }
-  }
-  WSVG.on("mousemove",ev=>{if(TT.classList.contains("vis"))mvT(ev);});
-});
-
-// ══════════════════════════════════════════
-// MEXICO PANEL (card grid)
-// ══════════════════════════════════════════
-const MXO=document.getElementById("mx-overlay");
-document.getElementById("back-btn").onclick=()=>{MXO.classList.remove("open");hideT();};
-
-function openMX(){
-  MXO.classList.add("open");
-  if(!document.getElementById("states-grid").children.length) buildGrid("mayor","todos");
-}
-
-let currentSort="mayor", currentRegion="todos";
-
-function buildGrid(sort, region){
-  currentSort=sort; currentRegion=region;
-  const grid=document.getElementById("states-grid");
-  grid.innerHTML="";
-
-  // Update filter button states
-  ["f-mayor","f-menor","f-az"].forEach(id=>{
-    document.getElementById(id).classList.toggle("active",
-      (id==="f-mayor"&&sort==="mayor")||(id==="f-menor"&&sort==="menor")||(id==="f-az"&&sort==="az"));
-  });
-  ["f-todos","f-norte","f-centro","f-sur"].forEach(id=>{
-    document.getElementById(id).classList.toggle("active",
-      (id==="f-todos"&&region==="todos")||(id==="f-norte"&&region==="norte")||(id==="f-centro"&&region==="centro")||(id==="f-sur"&&region==="sur"));
-  });
-
-  // meta row
-  const meta=document.createElement("div");
-  meta.className="grid-meta";
-  meta.textContent=`${STATES.length+1} estados · ordenado por ${sort==="mayor"?"mayor crecimiento":sort==="menor"?"menor crecimiento":"nombre"}`;
-  grid.appendChild(meta);
-
-  // Build list including Morelos
-  let list = [
-    [MORELOS.region, MORELOS.name, MORELOS.val, MORELOS.icon, MORELOS.desc, MORELOS.src, MORELOS.tag],
-    ...STATES
-  ];
-
-  // Filter by region
-  const regionMap={"norte":"Norte","centro":"Centro","sur":"Sur y SE"};
-  if(region!=="todos") list=list.filter(s=>s[0]===regionMap[region]);
-
-  // Sort
-  if(sort==="mayor") list.sort((a,b)=>b[2]-a[2]);
-  else if(sort==="menor") list.sort((a,b)=>a[2]-b[2]);
-  else list.sort((a,b)=>a[1].localeCompare(b[1],"es"));
-
-  list.forEach((s,i)=>{
-    const [reg,name,val,icon,desc,src,tag]=s;
-    const isMor=name==="Morelos";
-    const pct="+"+(val)+"%";
-    const card=document.createElement("div");
-    card.className="state-card"+(isMor?" morelos-card":"");
-    card.innerHTML=`
-      <div class="card-rank">#${i+1}</div>
-      <div class="card-header">
-        <div>
-          <div class="card-name">${icon} ${name}</div>
-          <div class="card-tag">${tag||reg.toUpperCase()}</div>
-        </div>
-        <div class="card-pct" style="color:${isMor?"#FF6B00":pctColor(val)}">${pct}</div>
-      </div>
-      <div class="card-bar-bg">
-        <div class="card-bar-fill" style="width:${Math.min(val,30)/30*100}%;background:${isMor?"linear-gradient(90deg,#FF6B00,#FF8C00)":barGrad(val)}"></div>
-      </div>
-      <div class="card-desc">${desc}</div>
-      <div style="font-size:.58rem;color:rgba(57,255,20,.22);margin-top:5px;font-family:'Share Tech Mono',monospace">📊 ${src}</div>
-    `;
-    grid.appendChild(card);
-  });
-}
-
-// Filter buttons
-document.getElementById("f-mayor").onclick=()=>buildGrid("mayor",currentRegion);
-document.getElementById("f-menor").onclick=()=>buildGrid("menor",currentRegion);
-document.getElementById("f-az").onclick=()=>buildGrid("az",currentRegion);
-document.getElementById("f-todos").onclick=()=>buildGrid(currentSort,"todos");
-document.getElementById("f-norte").onclick=()=>buildGrid(currentSort,"norte");
-document.getElementById("f-centro").onclick=()=>buildGrid(currentSort,"centro");
-document.getElementById("f-sur").onclick=()=>buildGrid(currentSort,"sur");
-</script>
+<a class="wa" href="https://wa.me/527775417367" aria-label="Escribir por WhatsApp" target="_blank" rel="noopener">
+  <svg class="" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.42-.08-.12-.28-.2-.58-.34m-5.42 7.4a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26C2.16 6.44 6.6 2 12.05 2c2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.43 9.89-9.88 9.89m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.48-8.41Z"/></svg>
+</a>
+<script src="js/gresanova.js"></script>
 </body>
 </html>

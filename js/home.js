@@ -107,9 +107,14 @@ const sizePin = () => {
   }
 };
 
+const bands = [...document.querySelectorAll('.band-dark')];
 const onFrame = () => {
   const y = scrollY;
   nav.classList.toggle('stuck', y > 40);
+  // el menú y la escala cambian de piel según la banda (clara u oscura) que tengan detrás
+  const overDark = yy => bands.some(b => { const r = b.getBoundingClientRect(); return r.top <= yy && r.bottom > yy; });
+  nav.classList.toggle('on-light', !overDark(33));
+  scale.classList.toggle('on-light', !overDark(innerHeight / 2));
 
   // parallax del fondo real
   if (!RM && y < innerHeight * 1.3) heroBg.style.transform = `translate3d(0,${y*0.14}px,0) scale(${1+y/innerHeight*0.045})`;
@@ -200,9 +205,14 @@ setTimeout(() => { sizePin(); layout(); }, 900); // tras cargar fuentes
   const cv = document.getElementById('trace'); if (!cv) return;
   const ctx = cv.getContext('2d');
   const CSS = getComputedStyle(document.documentElement);
-  const C = { grid:'rgba(255,255,255,.055)', axis:'rgba(255,255,255,.16)',
-              flat:'#98A5AE', sig:CSS.getPropertyValue('--signal-hi').trim()||'#E4B15C',
-              dim:'#5F6C75' };
+  const onDark = !!cv.closest('.band-dark') || !document.body.classList.contains('claro');
+  const C = onDark
+    ? { grid:'rgba(255,255,255,.055)', axis:'rgba(255,255,255,.16)', flat:'#98A5AE',
+        sig:CSS.getPropertyValue('--signal-hi').trim()||'#E4B15C', dim:'#7F8D97',
+        mk:'rgba(228,177,92,.4)', mkT:'rgba(228,177,92,.75)', glow:'rgba(228,177,92,.85)' }
+    : { grid:'rgba(20,25,29,.09)', axis:'rgba(20,25,29,.30)', flat:'#6B767E',
+        sig:'#A9731A', dim:'#566169',
+        mk:'rgba(138,97,24,.55)', mkT:'rgba(122,84,18,.95)', glow:'rgba(169,115,26,.55)' };
   let W,H,PAD;
   const N = 13;
   const before = [9.4,8.8,9.9,8.2,9.1,7.6,8.9,8.1,7.4,8.6,7.9,7.1,8.2];
@@ -222,7 +232,7 @@ setTimeout(() => { sizePin(); layout(); }, 900); // tras cargar fuentes
     ctx.clearRect(0,0,W,H);
     ctx.lineWidth = 1;
     // rejilla horizontal + etiquetas
-    ctx.font = '500 8px "IBM Plex Mono", monospace'; ctx.textBaseline='middle';
+    ctx.font = '500 10px "IBM Plex Mono", monospace'; ctx.textBaseline='middle';
     for (let v=0; v<=30; v+=10) {
       ctx.strokeStyle = C.grid; ctx.beginPath();
       ctx.moveTo(PAD.l, Y(v)+.5); ctx.lineTo(W-PAD.r, Y(v)+.5); ctx.stroke();
@@ -252,10 +262,10 @@ setTimeout(() => { sizePin(); layout(); }, 900); // tras cargar fuentes
   const marker = alpha => {
     const x = X(3);
     ctx.save(); ctx.globalAlpha = alpha;
-    ctx.strokeStyle = 'rgba(228,177,92,.4)'; ctx.setLineDash([2,3]); ctx.lineWidth = 1;
+    ctx.strokeStyle = C.mk; ctx.setLineDash([2,3]); ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(x+.5, PAD.t); ctx.lineTo(x+.5, H-PAD.b); ctx.stroke();
     ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(228,177,92,.75)'; ctx.font='500 8px "IBM Plex Mono", monospace';
+    ctx.fillStyle = C.mkT; ctx.font='500 9px "IBM Plex Mono", monospace';
     ctx.textAlign='left'; ctx.fillText('IMPLEMENTACIÓN', x+6, PAD.t+6);
     ctx.restore();
   };
@@ -265,7 +275,7 @@ setTimeout(() => { sizePin(); layout(); }, 900); // tras cargar fuentes
     const x = i0+1 < arr.length ? lerp(X(i0),X(i0+1),f) : X(i0);
     const y = i0+1 < arr.length ? lerp(Y(arr[i0]),Y(arr[i0+1]),f) : Y(arr[i0]);
     ctx.save();
-    ctx.shadowColor = 'rgba(228,177,92,.85)'; ctx.shadowBlur = 8*glow;
+    ctx.shadowColor = C.glow; ctx.shadowBlur = 8*glow;
     ctx.fillStyle = C.sig; ctx.beginPath(); ctx.arc(x,y,2.4,0,6.283); ctx.fill();
     ctx.restore();
   };
