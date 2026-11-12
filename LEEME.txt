@@ -1,0 +1,39 @@
+GRESANOVA · sitio v2 (tema claro con bandas oscuras)
+
+CORRER EN LOCAL
+  Opción A (la más simple): haz doble clic en index.html.
+  Opción B (recomendada, igual que en internet):
+     abre una terminal en esta carpeta y ejecuta:
+        python -m http.server 8000
+     luego entra a http://localhost:8000
+
+SUBIR A GITHUB PAGES
+  Sube TODO el contenido de esta carpeta a la raíz del repositorio
+  (index.html, equipo.html, galeria.html, impacto.html, CNAME, css/, js/, fonts/, img/).
+  Después borra del repo: Impacto.html (con I mayúscula), img/cami.jpg e img/han.jpg.
+  Espera 1-2 min y recarga con Ctrl+Shift+R.
+
+COLOR DE LOS ACENTOS (etiquetas, cifras, botones sobre papel)
+  Por defecto es ámbar (#9C5A00). Para cambiarlo, en la línea <body class="claro" ...>
+  de index.html, equipo.html, galeria.html e impacto.html agrega UNA de estas palabras:
+     <body class="claro acento-azul" ...>    azul de marca
+     <body class="claro acento-tinta" ...>   casi negro (el dorado queda solo en bandas oscuras)
+  Para un color propio, edita en css/gresanova.css la línea "--acc:#9C5A00" (bloque body.claro).
+  Debe ser un tono oscuro: sobre el papel claro un dorado brillante se vuelve ilegible.
+
+QUÉ CAMBIÓ
+  1. Fondo: papel claro (#F1EFEA) para leer; bandas oscuras solo en
+     inicio, Sistema GRESA, Contexto, Contacto y pie de página.
+  2. Grano/ruido casi imperceptible, sin animación ni viñeta pesada.
+  3. Textos en mayúsculas más grandes y con más contraste
+     (menú, etiquetas, listas, botones). Cuerpo de texto de peso 300 a 400.
+  4. El menú ya no lleva flechas "↗" delante y cambia de piel
+     (clara u oscura) según la banda que tenga detrás.
+  5. Gráfica de utilidad con colores adaptados al fondo claro.
+  6. Las páginas Equipo, Galería e Impacto cargaban js/gresanova.js, que no existía:
+     quedaban sin menú móvil y con contenido oculto. Ya está creado.
+
+PENDIENTE DE TU PARTE
+  - equipo.html: las 4 tarjetas dicen "Nombre por definir" y tienen texto de ejemplo.
+  - Revisa las cifras: el sitio dice "+20%" (arriba) y "+23%" (gráfica),
+    y "15%" de garantía. Conviene que no se contradigan.

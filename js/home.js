@@ -211,8 +211,10 @@ setTimeout(() => { sizePin(); layout(); }, 900); // tras cargar fuentes
         sig:CSS.getPropertyValue('--signal-hi').trim()||'#E4B15C', dim:'#7F8D97',
         mk:'rgba(228,177,92,.4)', mkT:'rgba(228,177,92,.75)', glow:'rgba(228,177,92,.85)' }
     : { grid:'rgba(20,25,29,.09)', axis:'rgba(20,25,29,.30)', flat:'#6B767E',
-        sig:'#A9731A', dim:'#566169',
-        mk:'rgba(138,97,24,.55)', mkT:'rgba(122,84,18,.95)', glow:'rgba(169,115,26,.55)' };
+        sig:getComputedStyle(document.body).getPropertyValue('--acc-chart').trim()||'#B36B00', dim:'#566169',
+        mk:`rgba(${getComputedStyle(document.body).getPropertyValue('--acc-rgb').trim()||'156,90,0'},.55)`,
+        mkT:getComputedStyle(document.body).getPropertyValue('--acc').trim()||'#9C5A00',
+        glow:`rgba(${getComputedStyle(document.body).getPropertyValue('--acc-rgb').trim()||'156,90,0'},.5)` };
   let W,H,PAD;
   const N = 13;
   const before = [9.4,8.8,9.9,8.2,9.1,7.6,8.9,8.1,7.4,8.6,7.9,7.1,8.2];

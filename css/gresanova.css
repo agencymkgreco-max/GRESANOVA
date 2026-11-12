@@ -587,9 +587,13 @@ body.claro{
   --ink:#F1EFEA; --ink-2:#E9E6DF; --panel:#FBFAF7; --panel-2:#FFFFFF;
   --edge:rgba(20,25,29,.22); --edge-soft:rgba(20,25,29,.12);
   --text:#14191D; --label:#38424A; --dim:#566169;
-  --signal:#8A6118; --signal-hi:#7A5412; --oxide:#9E4A39; --cool:#3F6F93;
+  /* ACENTO sobre papel: se cambia con una clase en <body> (acento-azul / acento-tinta) */
+  --acc:#9C5A00; --acc-hover:#7E4800; --acc-chart:#B36B00; --acc-rgb:156,90,0;
+  --signal:var(--acc); --signal-hi:var(--acc); --oxide:#9E4A39; --cool:#3F6F93;
   --bg-2:#E9E6DF; --fg-2:#38424A;
 }
+body.claro.acento-azul{--acc:#1F5F8F; --acc-hover:#174B73; --acc-chart:#2F7DB5; --acc-rgb:31,95,143}
+body.claro.acento-tinta{--acc:#14191D; --acc-hover:#2B343B; --acc-chart:#14191D; --acc-rgb:20,25,29}
 body.claro .band-dark,
 body.claro .nav,
 body.claro .drawer,
@@ -608,11 +612,11 @@ body.claro .nav.on-light,
 body.claro .scale.on-light{
   --edge:rgba(20,25,29,.22); --edge-soft:rgba(20,25,29,.12);
   --text:#14191D; --label:#38424A; --dim:#566169;
-  --signal:#8A6118; --signal-hi:#7A5412;
+  --signal:var(--acc); --signal-hi:var(--acc);
 }
 body.claro .nav.on-light.stuck{background:rgba(241,239,234,.92);border-bottom-color:rgba(20,25,29,.1)}
-body.claro .nav.on-light .nav-cta{border-color:rgba(138,97,24,.5)}
-body.claro .nav.on-light .nav-cta:hover{background:rgba(138,97,24,.08)}
+body.claro .nav.on-light .nav-cta{border-color:rgba(var(--acc-rgb),.55)}
+body.claro .nav.on-light .nav-cta:hover{background:rgba(var(--acc-rgb),.08)}
 body.claro .nav.on-light .burger{border-color:rgba(20,25,29,.25)}
 body.claro .nav.on-light .brand img{filter:none;opacity:1}
 
@@ -631,13 +635,13 @@ body.claro .guar-in,body.claro .plot-wide{background:var(--panel);backdrop-filte
 body.claro .gal figcaption{color:#fff}
 
 /* botones: latón oscuro con texto blanco sobre papel; latón claro sobre banda oscura */
-body.claro .btn-1{background:#8A6118;color:#fff;box-shadow:none}
-body.claro .btn-1::before{background:#6E4C12}
+body.claro .btn-1{background:var(--acc);color:#fff;box-shadow:none}
+body.claro .btn-1::before{background:var(--acc-hover)}
 body.claro .band-dark .btn-1{background:#C08B2C;color:#100C05;box-shadow:0 6px 30px -10px rgba(192,139,44,.5)}
 body.claro .band-dark .btn-1::before{background:var(--signal-hi)}
 body.claro .btn-2:hover{background:rgba(20,25,29,.05)}
 body.claro .band-dark .btn-2:hover{background:rgba(255,255,255,.04)}
-body.claro .link-b:hover{background:rgba(138,97,24,.07)}
+body.claro .link-b:hover{background:rgba(var(--acc-rgb),.07)}
 body.claro .band-dark .link-b:hover{background:rgba(192,139,44,.06)}
 
 /* separación mínima entre el texto de la etapa y su entregable (vista apilada) */
