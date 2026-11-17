@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anúnciate en Periódico GRESANOVA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F8FA;--card:#fff;--ink:#102A43;--mut:#52667A;--line:#D9E2EC;--acc:#F2B705;--acc-ink:#102A43;--teal:#0E7C86;--tint:#E3F4F5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1B2A;--card:#13293D;--ink:#EAF0F6;--mut:#9FB3C8;--line:#264560;--tint:#0F3A44;--teal:#4CC3CC}}
+*{box-sizing:border-box}
+html{color-scheme:light dark;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.55}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px}
+header{padding:48px 0 28px}
+h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.02;margin:0;font-weight:800;letter-spacing:-.03em;max-width:15ch}
+h1 mark{background:var(--acc);color:var(--acc-ink);padding:0 .12em;border-radius:6px}
+.lead{font-size:1.2rem;color:var(--mut);max-width:56ch;margin:16px 0 22px}
+.btn{display:inline-block;background:var(--acc);color:var(--acc-ink);font-weight:800;padding:14px 24px;border-radius:10px;text-decoration:none;font-size:1.05rem}
+.btn:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+section{padding:34px 0}
+h2{font-size:1.8rem;margin:0 0 6px;letter-spacing:-.02em}
+.sub{color:var(--mut);margin:0 0 20px;max-width:60ch}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{margin:0 0 6px;font-size:1.1rem}.card p{margin:0;color:var(--mut);font-size:.96rem}
+.two{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
+label{display:block;font-weight:600;font-size:.92rem;margin-bottom:12px}
+label span{float:right;color:var(--teal)}
+input[type=text],select{width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);margin-top:4px}
+input[type=range]{width:100%;accent-color:var(--teal)}
+.coupon{border:3px dashed var(--ink);border-radius:12px;padding:18px;background:var(--card);text-align:center;min-height:190px;display:flex;flex-direction:column;justify-content:center;gap:6px;transition:min-height .25s}
+.coupon.full{min-height:340px}.coupon.cuarto{min-height:140px}
+.coupon b{font-size:1.5rem;line-height:1.1}
+.coupon .of{font-size:2rem;font-weight:800;color:var(--teal);line-height:1.1}
+.coupon small{color:var(--mut)}
+.row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.big{font-size:2.6rem;font-weight:800;line-height:1.05;color:var(--teal)}
+.note{font-size:.88rem;color:var(--mut);margin-top:12px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.95rem;min-width:520px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th.me,td.me{background:var(--tint)}
+.price{font-size:1.8rem;font-weight:800}
+.plan.best{border:2px solid var(--acc)}
+.cta{background:var(--ink);color:var(--bg);border-radius:14px;padding:30px;text-align:center;margin:20px 0 50px}
+.cta h2{color:var(--bg)}.cta p{opacity:.85;margin:0 0 18px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.n{flex:none;width:36px;height:36px;border-radius:50%;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;font-weight:800}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<p style="margin:0 0 18px"><a href="index.html" style="color:var(--teal);font-weight:600">← GRESANOVA</a> · <a href="periodico.html" style="color:var(--teal);font-weight:600">Periódico</a></p>
+<h1>Que tus vecinos te conozcan, <mark>sin pagar</mark> un reparto completo</h1>
+<p class="lead">En Periódico GRESANOVA varios negocios de la zona comparten una sola revista de cupones que llega a los hogares. Tú pagas solo tu espacio.</p>
+<a class="btn" href="#contacto">Quiero mi espacio</a>
+</header>
+
+<section>
+<h2>Por qué te conviene</h2>
+<div class="grid">
+<div class="card"><h3>Pagas solo tu parte</h3><p>El costo de imprimir y repartir se divide entre todos los anunciantes de la edición.</p></div>
+<div class="card"><h3>Llegas a tu zona</h3><p>Se reparte por rutas definidas, así que te ven personas que viven o trabajan cerca de ti.</p></div>
+<div class="card"><h3>Se queda en casa</h3><p>Un cupón en papel se guarda, se comparte y se usa después, a diferencia de un anuncio que se pasa rápido.</p></div>
+<div class="card"><h3>Sabes si funcionó</h3><p>Tu cupón lleva un folio propio. Contamos cuántos llegan a tu negocio y te lo mostramos.</p></div>
+</div>
+</section>
+
+<section>
+<h2>Mira cómo se vería tu anuncio</h2>
+<p class="sub">Escribe el nombre de tu negocio y tu promoción.</p>
+<div class="two">
+<div class="card">
+<label>Nombre de tu negocio<input type="text" id="nm" value="Tacos Don Pepe" maxlength="40"></label>
+<label>Tu promoción<input type="text" id="of" value="2x1 en tacos al pastor" maxlength="50"></label>
+<label>Tamaño del espacio<select id="sz"><option value="cuarto">Cuarto de página</option><option value="medio" selected>Media página</option><option value="full">Página completa</option></select></label>
+</div>
+<div class="coupon" id="cp" aria-live="polite">
+<small>Cupón GRESANOVA</small><b id="pn"></b><div class="of" id="po"></div><small>Presenta este cupón en el negocio. Folio: GN-0001</small>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Frente a otras opciones</h2>
+<p class="sub">Todas sirven. La diferencia está en cuánto pagas y qué obtienes.</p>
+<div class="card scroll"><table>
+<tr><th></th><th>Volantes propios</th><th>Anuncio en redes</th><th class="me">GRESANOVA</th></tr>
+<tr><td>Costo de reparto</td><td>Lo pagas completo tú</td><td>No hay reparto físico</td><td class="me">Compartido entre todos</td></tr>
+<tr><td>Se guarda en casa</td><td>Suele tirarse</td><td>No</td><td class="me">Sí, junto con otros cupones</td></tr>
+<tr><td>Zona</td><td>La que repartas tú</td><td>Se configura</td><td class="me">Rutas por colonia</td></tr>
+<tr><td>Medir resultados</td><td>Difícil</td><td>Sí</td><td class="me">Sí, con folio de cupón</td></tr>
+</table></div>
+</section>
+
+<section>
+<h2>Elige tu espacio</h2>
+<p class="sub">Precios de ejemplo por edición. Pregunta por descuento si contratas varias ediciones.</p>
+<div class="grid">
+<div class="card plan"><h3>Cuarto de página</h3><div class="price">$600</div><p>Ideal para empezar y probar.</p></div>
+<div class="card plan best"><h3>Media página</h3><div class="price">$1,200</div><p>Más espacio para tu oferta y tus datos.</p></div>
+<div class="card plan"><h3>Página completa</h3><div class="price">$2,200</div><p>Todo el protagonismo en la edición.</p></div>
+<div class="card plan"><h3>Portada o contraportada</h3><div class="price">Consultar</div><p>Espacio limitado, la primera imagen que ven.</p></div>
+</div>
+</section>
+
+<section>
+<h2>Empezar es fácil</h2>
+<div class="grid">
+<div class="step"><div class="n">1</div><div><b>Eliges tamaño</b><p class="note" style="margin:2px 0 0">Y la zona donde quieres aparecer.</p></div></div>
+<div class="step"><div class="n">2</div><div><b>Nos mandas tu logo y oferta</b><p class="note" style="margin:2px 0 0">Nosotros diseñamos el cupón.</p></div></div>
+<div class="step"><div class="n">3</div><div><b>Aprobar y repartir</b><p class="note" style="margin:2px 0 0">Ves tu espacio antes de imprimir.</p></div></div>
+<div class="step"><div class="n">4</div><div><b>Te mostramos resultados</b><p class="note" style="margin:2px 0 0">Cuántos cupones se canjearon.</p></div></div>
+</div>
+</section>
+
+<div class="cta" id="contacto">
+<h2>Reserva tu espacio en la próxima edición</h2>
+<p>Los espacios son limitados por edición.</p>
+<a class="btn" href="https://wa.me/527701253862" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+</div>
+</div>
+<script>
+const $=i=>document.getElementById(i),m=n=>'$'+Math.round(n).toLocaleString('es-MX');
+function ad(){$('pn').textContent=$('nm').value||'Tu negocio';$('po').textContent=$('of').value||'Tu promoción';
+ const s=$('sz').value;$('cp').className='coupon'+(s==='full'?' full':s==='cuarto'?' cuarto':'');}
+['nm','of','sz'].forEach(i=>$(i).oninput=ad);ad();
+</script>
+</body>
+</html>

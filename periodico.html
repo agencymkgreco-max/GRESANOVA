@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Periódico GRESANOVA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F8FA;--card:#fff;--ink:#102A43;--mut:#52667A;--line:#D9E2EC;--acc:#F2B705;--acc-ink:#102A43;--teal:#0E7C86;--tint:#E3F4F5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C1B2A;--card:#13293D;--ink:#EAF0F6;--mut:#9FB3C8;--line:#264560;--tint:#0F3A44;--teal:#4CC3CC}}
+*{box-sizing:border-box}
+html{color-scheme:light dark;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Bricolage Grotesque',system-ui,sans-serif;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+header{padding:44px 0 22px}
+h1{font-size:clamp(2.4rem,8vw,4.6rem);line-height:1;margin:0;font-weight:800;letter-spacing:-.03em}
+h1 span{background:var(--acc);color:var(--acc-ink);padding:0 .15em;border-radius:6px}
+.lead{font-size:1.2rem;color:var(--mut);max-width:60ch;margin:14px 0 0}
+nav{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:1px solid var(--line);overflow-x:auto;white-space:nowrap}
+nav button{font:inherit;font-weight:600;background:none;border:0;color:var(--mut);padding:14px 14px;cursor:pointer;border-bottom:3px solid transparent}
+nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--acc)}
+nav button:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+section{display:none;padding:28px 0 60px}
+section.on{display:block}
+h2{font-size:1.9rem;margin:0 0 6px;letter-spacing:-.02em}
+.sub{color:var(--mut);margin:0 0 22px;max-width:62ch}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{margin:0 0 6px;font-size:1.1rem}
+.card p{margin:0;color:var(--mut);font-size:.97rem}
+.big{font-size:2.3rem;font-weight:800;line-height:1.1}
+.flow{display:flex;flex-direction:column;gap:0}
+.step{display:grid;grid-template-columns:44px 1fr;gap:14px;padding-bottom:18px;position:relative}
+.step:not(:last-child)::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.dot{width:44px;height:44px;border-radius:50%;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;font-weight:800}
+.step h3{margin:2px 0 2px}.step p{margin:0;color:var(--mut)}
+.map{background:var(--tint);border-radius:12px;padding:8px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:inherit;fill:var(--ink);font-size:13px}
+.z{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.route{fill:none;stroke:var(--teal);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:9 9;animation:d 1.2s linear infinite}
+@keyframes d{to{stroke-dashoffset:-18}}
+@media (prefers-reduced-motion:reduce){.route{animation:none}}
+.calc{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:760px){.calc{grid-template-columns:1fr 1fr}}
+label{display:block;font-weight:600;font-size:.92rem;margin-bottom:12px}
+label span{float:right;color:var(--teal)}
+input[type=range]{width:100%;accent-color:var(--teal)}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
+.total{font-size:1.5rem;font-weight:800}
+.pos{color:var(--teal)}.neg{color:#C0392B}
+.bar{height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .3s}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.scroll{overflow-x:auto}
+.tag{display:inline-block;background:var(--tint);color:var(--teal);border-radius:20px;padding:2px 10px;font-size:.85rem;font-weight:600}
+.note{font-size:.88rem;color:var(--mut);margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<p style="margin:0 0 18px"><a href="index.html" style="color:var(--teal);font-weight:600">← GRESANOVA</a> · <a href="anunciate.html" style="color:var(--teal);font-weight:600">Anúnciate</a></p>
+<h1>Periódico <span>GRESANOVA</span></h1>
+<p class="lead">Una revista-cuponera repartida por rutas. Los negocios locales comparten el costo de llegar a miles de hogares, y los vecinos ahorran.</p>
+</header>
+</div>
+<nav role="tablist"><div class="wrap">
+<button role="tab" aria-selected="true" data-t="idea">La idea</button>
+<button role="tab" aria-selected="false" data-t="como">Cómo funciona</button>
+<button role="tab" aria-selected="false" data-t="rutas">Rutas</button>
+<button role="tab" aria-selected="false" data-t="num">Números</button>
+<button role="tab" aria-selected="false" data-t="ref">Ejemplos reales</button>
+<button role="tab" aria-selected="false" data-t="plan">Siguientes pasos</button>
+</div></nav>
+
+<div class="wrap">
+<section id="idea" class="on">
+<h2>Qué es y por qué funciona</h2>
+<p class="sub">Un negocio pequeño no puede pagar un volante para toda la ciudad. En GRESANOVA paga solo su espacio y comparte la distribución con otros.</p>
+<div class="grid">
+<div class="card"><h3>Para el negocio</h3><p>Publicidad accesible, en una zona elegida, con cupones que permiten ver quién llegó por el periódico.</p></div>
+<div class="card"><h3>Para el vecino</h3><p>Descuentos de negocios cercanos, en papel, directo en su casa o local.</p></div>
+<div class="card"><h3>Para GRESANOVA</h3><p>Ingreso por renta de espacios, con costos bajos y rutas que ya conoces.</p></div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Espacios que se pueden rentar</h3>
+<div class="scroll"><table><tr><th>Espacio</th><th>Para quién</th></tr>
+<tr><td>Portada y contraportada</td><td>Anunciante principal, precio premium</td></tr>
+<tr><td>Página completa y media página</td><td>Negocios con mucha oferta (restaurantes, clínicas)</td></tr>
+<tr><td>Cuarto de página y cupón</td><td>Negocios pequeños que empiezan</td></tr></table></div></div>
+</section>
+
+<section id="como">
+<h2>El proceso, de la venta a la entrega</h2>
+<p class="sub">Cada edición sigue los mismos pasos. Repetirlos con orden es lo que permite crecer.</p>
+<div class="flow">
+<div class="step"><div class="dot">1</div><div><h3>Vender espacios</h3><p>Visitas negocios de la zona y les presentas tamaños, precios y cuántos hogares alcanzas.</p></div></div>
+<div class="step"><div class="dot">2</div><div><h3>Recibir material y cupones</h3><p>Cada negocio entrega logo, oferta y vigencia. Cada cupón lleva un folio propio.</p></div></div>
+<div class="step"><div class="dot">3</div><div><h3>Diseñar e imprimir</h3><p>Armas la edición, el negocio aprueba su espacio y se manda a imprenta.</p></div></div>
+<div class="step"><div class="dot">4</div><div><h3>Repartir por rutas</h3><p>Los repartidores recorren las rutas trazadas y llevan control de lo entregado.</p></div></div>
+<div class="step"><div class="dot">5</div><div><h3>Medir y renovar</h3><p>Cuentas cupones canjeados por negocio, les muestras resultados y renuevas contrato.</p></div></div>
+</div></section>
+
+<section id="rutas">
+<h2>Rutas de distribución</h2>
+<p class="sub">Este es un esquema de ejemplo. Cada ruta cubre un grupo de colonias, con un repartidor y un número de ejemplares definido.</p>
+<div class="map"><svg viewBox="0 0 640 320" role="img" aria-label="Esquema de tres rutas de reparto sobre zonas">
+<rect class="z" x="20" y="20" width="170" height="130" rx="10"/><text x="38" y="46">Zona A</text>
+<rect class="z" x="235" y="20" width="170" height="130" rx="10"/><text x="253" y="46">Zona B</text>
+<rect class="z" x="450" y="20" width="170" height="130" rx="10"/><text x="468" y="46">Zona C</text>
+<rect class="z" x="20" y="180" width="170" height="120" rx="10"/><text x="38" y="206">Zona D</text>
+<rect class="z" x="235" y="180" width="170" height="120" rx="10"/><text x="253" y="206">Zona E</text>
+<rect class="z" x="450" y="180" width="170" height="120" rx="10"/><text x="468" y="206">Zona F</text>
+<path class="route" d="M40 70 H170 V130 H60 V100"/>
+<path class="route" d="M255 70 H385 V130 H275 V100"/>
+<path class="route" d="M470 70 H600 V130 H490 V100"/>
+<path class="route" d="M40 230 H170 V280 H60"/>
+<circle cx="320" cy="165" r="9" fill="#F2B705"/><text x="334" y="169">Punto de salida</text>
+</svg></div>
+<div class="grid" style="margin-top:14px">
+<div class="card"><h3>Ruta fija</h3><p>Mismas calles cada edición. El negocio sabe a quién llega.</p></div>
+<div class="card"><h3>Control de entrega</h3><p>Cada repartidor anota cuántos ejemplares dejó y dónde.</p></div>
+<div class="card"><h3>Zona del anunciante</h3><p>Un negocio puede pedir aparecer solo en las rutas cercanas a su local.</p></div>
+</div>
+</section>
+
+<section id="num">
+<h2>Calculadora de ingresos</h2>
+<p class="sub">Mueve los controles para ver cuánto podría generar una edición. Los valores iniciales son ejemplos; cámbialos por tus costos reales.</p>
+<div class="calc">
+<div class="card">
+<label>Ejemplares impresos <span id="vT"></span><input type="range" id="T" min="1000" max="20000" step="500" value="5000"></label>
+<label>Espacios a la venta <span id="vE"></span><input type="range" id="E" min="4" max="48" step="1" value="16"></label>
+<label>Precio por espacio (MXN) <span id="vP"></span><input type="range" id="P" min="300" max="5000" step="50" value="1200"></label>
+<label>Ocupación (% vendido) <span id="vO"></span><input type="range" id="O" min="10" max="100" step="5" value="75"></label>
+<label>Costo de impresión por ejemplar <span id="vC"></span><input type="range" id="C" min="0.5" max="8" step="0.1" value="2.5"></label>
+<label>Costo de reparto por 1,000 ejemplares <span id="vR"></span><input type="range" id="R" min="100" max="1500" step="50" value="400"></label>
+</div>
+<div class="card">
+<div class="row"><span>Ingreso por espacios</span><b id="rI"></b></div>
+<div class="row"><span>Impresión</span><b id="rC"></b></div>
+<div class="row"><span>Reparto</span><b id="rR"></b></div>
+<div class="row"><span>Utilidad por edición</span><b class="total" id="rU"></b></div>
+<div class="row"><span>Espacios para cubrir costos</span><b id="rB"></b></div>
+<div class="bar" aria-hidden="true"><i id="bar"></i></div>
+<p class="note" id="bn"></p>
+<p class="note">Aún no incluye diseño, sueldos ni otros gastos. Agrégalos antes de tomar decisiones.</p>
+</div></div>
+</section>
+
+<section id="ref">
+<h2>Negocios parecidos que ya funcionan</h2>
+<p class="sub">El modelo de cuponera cooperativa tiene más de 50 años de historia.</p>
+<div class="card scroll"><table>
+<tr><th>Empresa</th><th>Qué hace</th><th>Qué aprender</th></tr>
+<tr><td><b>Valpak</b> <span class="tag">EE. UU.</span></td><td>Sobre azul con cupones de negocios locales, fundado en 1968. Más de 34,000 anunciantes.</td><td>Zonas pequeñas, envío periódico y vender también el exterior del sobre.</td></tr>
+<tr><td><b>Money Mailer</b> <span class="tag">EE. UU.</span></td><td>Cupones por correo mediante franquicias locales.</td><td>Un modelo que se replica ciudad por ciudad.</td></tr>
+<tr><td><b>Clipper Magazine</b> <span class="tag">EE. UU.</span></td><td>Revista de cupones que ahora combina papel y cupón digital.</td><td>Sumar una versión digital sin dejar el papel.</td></tr>
+<tr><td><b>PUBLI-Sur</b> <span class="tag">México</span></td><td>Revista local para pequeños comercios del sur de CDMX, estudiada como caso académico.</td><td>Precio accesible y zona bien definida.</td></tr>
+</table></div>
+<p class="note">En México no hallé un líder nacional claro, lo que sugiere espacio para crecer a nivel local.</p>
+</section>
+
+<section id="plan">
+<h2>Cómo hacerlo crecer</h2>
+<div class="grid">
+<div class="card"><h3>Paquetes de varios meses</h3><p>Descuento por contratar 3 o 6 ediciones. Da ingreso más estable.</p></div>
+<div class="card"><h3>Cupones con folio</h3><p>Cada negocio ve cuántos canjes tuvo y puede decidir renovar con datos.</p></div>
+<div class="card"><h3>Presencia digital</h3><p>Página de Facebook o canal de WhatsApp con las ofertas de la edición.</p></div>
+<div class="card"><h3>Portada premium</h3><p>Vende portada y contraportada a mayor precio a un anunciante principal.</p></div>
+<div class="card"><h3>Nuevas zonas</h3><p>Cuando una ruta sea rentable, duplícala en otra colonia con el mismo método.</p></div>
+<div class="card"><h3>Anunciantes de ejemplo</h3><p>Muestra ediciones anteriores y resultados reales al vender a nuevos negocios.</p></div>
+</div></section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id),m=n=>'$'+Math.round(n).toLocaleString('es-MX');
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected',x===b));
+ document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===b.dataset.t));
+ scrollTo({top:0});
+});
+function calc(){
+ const T=+$('T').value,E=+$('E').value,P=+$('P').value,O=+$('O').value/100,C=+$('C').value,R=+$('R').value;
+ $('vT').textContent=T.toLocaleString('es-MX');$('vE').textContent=E;$('vP').textContent=m(P);$('vO').textContent=Math.round(O*100)+'%';$('vC').textContent='$'+C.toFixed(1);$('vR').textContent=m(R);
+ const ing=E*O*P,ci=T*C,cr=T/1000*R,u=ing-ci-cr,be=Math.ceil((ci+cr)/P);
+ $('rI').textContent=m(ing);$('rC').textContent=m(ci);$('rR').textContent=m(cr);
+ const r=$('rU');r.textContent=m(u);r.className='total '+(u>=0?'pos':'neg');
+ $('rB').textContent=be+' de '+E;
+ $('bar').style.width=Math.min(100,be/E*100)+'%';
+ $('bn').textContent=be>E?'Con estos datos no alcanzas a cubrir costos aunque vendas todo.':'Vendiendo '+be+' espacios cubres costos; el resto es utilidad.';
+}
+document.querySelectorAll('input[type=range]').forEach(i=>i.oninput=calc);calc();
+</script>
+</body>
+</html>
